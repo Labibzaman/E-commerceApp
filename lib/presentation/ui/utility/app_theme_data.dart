@@ -50,5 +50,10 @@ class AppThemeData{
         ),
       ),
     ),
+    textButtonTheme: TextButtonThemeData(
+      style: TextButton.styleFrom(
+        textStyle: TextStyle(color: Colors.grey)
+      ),
+    ),
   );
 }

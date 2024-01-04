@@ -1,5 +1,6 @@
 import 'package:crafty_bay/presentation/ui/screens/verify_email_screen.dart';
 import 'package:crafty_bay/presentation/ui/utility/assets_path.dart';
+import 'package:crafty_bay/presentation/ui/widgets/app_logo.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
@@ -31,9 +32,9 @@ class _Splash_ScreenState extends State<Splash_Screen> {
         child: Column(
           children: [
             const Spacer(),
-            Image.asset(
-              AssetsPath.logo,
-              width: 120,
+            Hero(
+              tag: 'appLogo',
+              child: AppLogo()
             ),
             const Spacer(),
             const CircularProgressIndicator(),

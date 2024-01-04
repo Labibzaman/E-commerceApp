@@ -22,7 +22,10 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
         child: Column(
           children: [
             const SizedBox(height: 200),
-            AppLogo(height: 80),
+            Hero(
+              tag: 'appLogo',
+              child: AppLogo(height: 80),
+            ),
             const SizedBox(height: 16),
             Text(
               'Welcome Back',
