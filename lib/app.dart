@@ -1,4 +1,4 @@
-import 'package:crafty_bay/presentation/ui/screens/splash_screen.dart';
+import 'package:crafty_bay/presentation/ui/screens/auth/splash_screen.dart';
 import 'package:crafty_bay/presentation/ui/utility/app_theme_data.dart';
 import 'package:crafty_bay/presentation/ui/utility/appcolors.dart';
 import 'package:flutter/material.dart';
