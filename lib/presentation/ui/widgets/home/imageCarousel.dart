@@ -58,7 +58,7 @@ class _Home_imageCarouselState extends State<Home_imageCarousel> {
               return Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  for (int i = 0; i < 7; i++)
+                  for (int i = 0; i < 5; i++)
                     Container(
                       height: 14,
                       width: 14,
