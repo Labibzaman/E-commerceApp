@@ -64,15 +64,14 @@ class _Home_imageCarouselState extends State<Home_imageCarousel> {
                       width: 14,
                       margin: const EdgeInsets.all(2),
                       decoration: BoxDecoration(
-                          color: i == index
-                              ? AppColors.primaryColor
-                              : Colors.white,
-                          border: Border.all(
-                            color: i == index
-                                ? AppColors.primaryColor
-                                : Colors.grey,
-                          ),
-                          borderRadius: BorderRadius.circular(30)),
+                        color:
+                            i == index ? AppColors.primaryColor : Colors.white,
+                        border: Border.all(
+                          color:
+                              i == index ? AppColors.primaryColor : Colors.grey,
+                        ),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
                     )
                 ],
               );

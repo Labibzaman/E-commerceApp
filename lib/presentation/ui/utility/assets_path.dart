@@ -2,4 +2,5 @@ class AssetsPath{
   static const String imagePath = 'assets/images';
   static const String logo = '$imagePath/logo.png';
   static const String navLogo = '$imagePath/logo_nav.png';
+  static const String shoePng = '$imagePath/shoe.png';
 }
