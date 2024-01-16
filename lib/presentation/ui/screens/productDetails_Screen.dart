@@ -1,0 +1,148 @@
+import 'package:flutter/material.dart';
+import 'package:item_count_number_button/item_count_number_button.dart';
+
+import '../utility/appcolors.dart';
+import '../widgets/product_Details/ProductDetails_image_Carousel.dart';
+
+class ProductDetailsScreen extends StatefulWidget {
+  const ProductDetailsScreen({super.key});
+
+  @override
+  State<ProductDetailsScreen> createState() => _ProductDetailsScreenState();
+}
+
+class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
+  ValueNotifier<int> numberOfItems = ValueNotifier(1);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Product Details'),
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: Column(
+              children: [
+                const ProductDetail_Carousel(),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          const Expanded(
+                            child: Text(
+                              'New Year special Shoe Nike air Jorder - Save 30%',
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.w600),
+                            ),
+                          ),
+                          ValueListenableBuilder(
+                              valueListenable: numberOfItems,
+                              builder: (context, value, _) {
+                                return ItemCount(
+                                  initialValue: value,
+                                  minValue: 1,
+                                  maxValue: 10,
+                                  decimalPlaces: 0,
+                                  color: AppColors.primaryColor,
+                                  onChanged: (v) {
+                                    numberOfItems.value = v.toInt();
+                                  },
+                                );
+                              }),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Wrap(
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            children: [
+                              const Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              ),
+                              const Text(
+                                '4.5',
+                                style: TextStyle(color: Colors.black45),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),const Text(
+                                'Reviews',
+                                style: TextStyle(color:AppColors.primaryColor),
+                              ), const SizedBox(
+                                width: 7,
+                              ),
+                              Card(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12)),
+                                color: AppColors.primaryColor,
+                                child: const Padding(
+                                  padding: EdgeInsets.all(4.0),
+                                  child: Icon(
+                                    Icons.favorite_outline,
+                                    color: Colors.white,
+                                    size: 20,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+          AddtoCart_price
+        ],
+      ),
+    );
+  }
+
+  Container get AddtoCart_price {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+          color: AppColors.primaryColor.withOpacity(0.1),
+          borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(16), topRight: Radius.circular(16))),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          const Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text(
+                'Price',
+                style: TextStyle(fontSize: 14, color: Colors.black54),
+              ),
+              Text(
+                '\$12563755',
+                style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.primaryColor),
+              ),
+            ],
+          ),
+          SizedBox(
+            width: 160,
+            child: ElevatedButton(
+              onPressed: () {},
+              child: const Text(
+                'Add to Cart',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

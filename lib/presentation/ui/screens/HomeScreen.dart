@@ -1,11 +1,16 @@
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:crafty_bay/presentation/state_holders/main_nav_bottom_controller.dart';
+import 'package:crafty_bay/presentation/ui/screens/category_screen.dart';
+import 'package:crafty_bay/presentation/ui/screens/productList_screen.dart';
 import 'package:crafty_bay/presentation/ui/utility/appcolors.dart';
 import 'package:crafty_bay/presentation/ui/utility/assets_path.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import '../widgets/categoryItem.dart';
 import '../widgets/home/category_seeAll.dart';
 import '../widgets/home/circle_Icon_Button.dart';
 import '../widgets/home/imageCarousel.dart';
+import '../widgets/product_card_item.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -31,14 +36,28 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(height: 8),
                 homeCategoryandSeeText(
                   title: 'All Categories',
-                  onTapSeeAll: () {},
+                  onTapSeeAll: () {
+                    Get.find<Main_bottom_controller>().changeIndex(1);
+                  },
                 ),
                 CategoryList_View,
                 homeCategoryandSeeText(
-                  title: 'Product',
+                  title: 'Popular',
+                  onTapSeeAll: () {
+                    Get.to(const ProductList_Screen());
+                  },
+                ),
+                ProductListCardView,
+                homeCategoryandSeeText(
+                  title: 'Special',
                   onTapSeeAll: () {},
                 ),
-                ProductList_View
+                ProductListCardView,
+                homeCategoryandSeeText(
+                  title: 'New',
+                  onTapSeeAll: () {},
+                ),
+                ProductListCardView
               ],
             ),
           ),
@@ -65,7 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  SizedBox get ProductList_View {
+  SizedBox get ProductListCardView {
     return SizedBox(
       height: 200,
       child: ListView.separated(
@@ -74,23 +93,7 @@ class _HomeScreenState extends State<HomeScreen> {
         primary: false,
         itemCount: 10,
         itemBuilder: (BuildContext context, int index) {
-          return Card(
-            child: Column(
-              children: [
-                ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(8),
-                      topRight: Radius.circular(8),
-                      bottomLeft: Radius.circular(8)),
-                  child: Image.asset(
-                    AssetsPath.shoePng,
-                    width: 110,
-                  ),
-                ),
-                const Text('Nike Air Jordan')
-              ],
-            ),
-          );
+          return const ProductCard_item();
         },
         separatorBuilder: (BuildContext context, int index) {
           return const Divider(height: 8);

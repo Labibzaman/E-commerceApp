@@ -42,7 +42,9 @@ class AppThemeData{
       ),
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
+
       style: ElevatedButton.styleFrom(
+        textStyle: const TextStyle(color: Colors.white),
         backgroundColor: AppColors.primaryColor,
         padding: const EdgeInsets.symmetric(vertical: 12),
         shape: RoundedRectangleBorder(
@@ -52,8 +54,14 @@ class AppThemeData{
     ),
     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
-        textStyle: TextStyle(color: Colors.grey)
+        textStyle: const TextStyle(color: Colors.grey)
       ),
     ),
+    appBarTheme: const AppBarTheme(
+      titleTextStyle: TextStyle(
+        fontSize:18,
+        color: Colors.black45
+      )
+    )
   );
 }

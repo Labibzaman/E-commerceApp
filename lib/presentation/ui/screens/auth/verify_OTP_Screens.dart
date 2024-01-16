@@ -136,7 +136,7 @@ class _verifyOTPscreenState extends State<verifyOTPscreen> {
                         )
                       : isVerified
                           ? const Icon(Icons.check_circle_outline)
-                          : const Text('Next'),
+                          : const Text('Next',style: TextStyle(color: Colors.white),),
                 ),
               ),
               const SizedBox(height: 12),
