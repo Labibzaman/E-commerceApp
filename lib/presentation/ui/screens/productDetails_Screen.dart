@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:item_count_number_button/item_count_number_button.dart';
 
 import '../utility/appcolors.dart';
+import '../widgets/product_Details/ColorSelector.dart';
 import '../widgets/product_Details/ProductDetails_image_Carousel.dart';
+import '../widgets/product_Details/SizeSelector.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   const ProductDetailsScreen({super.key});
@@ -14,6 +16,26 @@ class ProductDetailsScreen extends StatefulWidget {
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   ValueNotifier<int> numberOfItems = ValueNotifier(1);
 
+  List<Color> Productcolors = [
+    Colors.red,
+    Colors.grey,
+    Colors.black54,
+    Colors.deepPurpleAccent,
+    Colors.green,
+  ];
+
+  Color _selectedColor = Colors.red;
+
+  List<String> Sizes = [
+    'm',
+    'L',
+    'XL',
+    'XXL',
+    'XXl',
+  ];
+
+  String _selectedSize = 'm';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,12 +45,26 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       body: Column(
         children: [
           Expanded(
-            child: Column(
-              children: [
-                const ProductDetail_Carousel(),
-                Padding(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  const ProductDetail_Carousel(),
+                  ProductDetails_Body
+                ],
+              ),
+            ),
+          ),
+          AddtoCart_price
+        ],
+      ),
+    );
+  }
+
+  Padding get ProductDetails_Body {
+    return Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
                         children: [
@@ -55,6 +91,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               }),
                         ],
                       ),
+                      const SizedBox(
+                        height: 8,
+                      ),
                       Row(
                         children: [
                           Wrap(
@@ -70,10 +109,12 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               ),
                               const SizedBox(
                                 width: 10,
-                              ),const Text(
+                              ),
+                              const Text(
                                 'Reviews',
-                                style: TextStyle(color:AppColors.primaryColor),
-                              ), const SizedBox(
+                                style: TextStyle(color: AppColors.primaryColor),
+                              ),
+                              const SizedBox(
                                 width: 7,
                               ),
                               Card(
@@ -92,17 +133,64 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             ],
                           ),
                         ],
-                      )
+                      ),
+                      const SizedBox(
+                        height: 2,
+                      ),
+                      const Text(
+                        'color',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 18,
+                        ),
+                      ),
+                      ColorSelector(
+                        Productcolors: Productcolors,
+                        onChanged: (c) {
+                          _selectedColor = c;
+                        },
+                      ),
+                      const SizedBox(
+                        height: 2,
+                      ),
+                      const Text(
+                        'Size',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 18,
+                        ),
+                      ),
+                      SizeSelector(
+                        Sizes: Sizes,
+                        Onchanged: (c) {
+                          _selectedSize = c;
+                        },
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      const Text(
+                        'Description',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 18,
+                        ),
+                      ),
+                      const Text(
+                        '''Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                        Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
+                        when an unknown printer took a galley of type and scrambled it to make a type specimen book. 
+                        Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
+                        when an unknown printer took a galley of type and scrambled it to make a type specimen book. 
+                        ''',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w200,
+                          fontSize: 14,
+                        ),
+                      ),
                     ],
                   ),
-                )
-              ],
-            ),
-          ),
-          AddtoCart_price
-        ],
-      ),
-    );
+                );
   }
 
   Container get AddtoCart_price {
