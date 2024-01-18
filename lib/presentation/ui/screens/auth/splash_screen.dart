@@ -23,7 +23,7 @@ class _Splash_ScreenState extends State<Splash_Screen> {
 
   void moveToNextScreen() async{
     await Future.delayed(const Duration(seconds: 2));
-    Get.offAll(const MainBottom_Nav_Screen());
+    Get.offAll(() => const VerifyEmailScreen());
   }
 
   @override
