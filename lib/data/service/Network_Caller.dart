@@ -33,6 +33,7 @@ class NetworkCaller {
   Future<ResponseData> postRequest(String url,
       {Map<String, dynamic>? body}) async {
     log(url);
+    log(body.toString());
 
     final Response response = await post(Uri.parse(url), body: body);
 
