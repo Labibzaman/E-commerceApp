@@ -19,6 +19,8 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,7 +60,8 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
                   decoration: const InputDecoration(hintText: 'Email Address'),
                 ),
                 const SizedBox(height: 10),
-                GetBuilder<SendOTPEmail_Controller>(builder: (controller) {
+                GetBuilder<SendOTPEmail_Controller>(builder:
+                    (controller) {
                   return SizedBox(
                     width: double.infinity,
                     child: Visibility(
@@ -71,13 +74,14 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
                             final bool result = await controller
                                 .sendOTP(emailTEcontroller.text.trim());
                             if (result) {
-                              Get.to(const verifyOTPscreen());
+                              Get.to( verifyOTPscreen(email: emailTEcontroller.text));
                             } else {
-                              Get.showSnackbar(
-                                const GetSnackBar(
-                                  title: 'send OTP failed',
-                                ),
-                              );
+                              Get.showSnackbar(GetSnackBar(
+                                title: 'Failed',
+                                message: controller.errorMessage,
+                                duration: const Duration(seconds: 2),
+                                isDismissible: true,
+                              ));
                             }
                           }
                         },

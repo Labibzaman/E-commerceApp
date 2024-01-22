@@ -1,27 +1,40 @@
 import 'dart:async';
 import 'dart:ffi';
 
+import 'package:crafty_bay/presentation/state_holders/send_OTP_controller.dart';
+import 'package:crafty_bay/presentation/state_holders/verify_OTP_controller.dart';
 import 'package:crafty_bay/presentation/ui/screens/auth/complete_profile_screen.dart';
+import 'package:crafty_bay/presentation/ui/screens/main_bottom_nav_screen.dart';
 import 'package:crafty_bay/presentation/ui/utility/appcolors.dart';
 import 'package:crafty_bay/presentation/ui/utility/assets_path.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
+import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../../widgets/app_logo.dart';
 
 class verifyOTPscreen extends StatefulWidget {
-  const verifyOTPscreen({super.key});
+  const verifyOTPscreen({super.key, required this.email});
+
+  final String email;
 
   @override
   State<verifyOTPscreen> createState() => _verifyOTPscreenState();
 }
 
 class _verifyOTPscreenState extends State<verifyOTPscreen> {
+  final TextEditingController _Verifyotpcontroller = TextEditingController();
+  GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+
+  final resendOTPsender = Get.find<SendOTPEmail_Controller>();
+
   bool isResend = false;
   bool isVerified = false;
   bool isLoading = false;
+  bool isSucces = false;
 
   String code = '';
   late Timer _timer;
@@ -29,6 +42,7 @@ class _verifyOTPscreenState extends State<verifyOTPscreen> {
 
   void resend() {
     setState(() {
+      resendOTPsender.sendOTP(widget.email);
       isResend = true;
     });
     const oneSec = Duration(seconds: 1);
@@ -49,10 +63,13 @@ class _verifyOTPscreenState extends State<verifyOTPscreen> {
   void Verify() {
     setState(() {
       isLoading = true;
+
+      isSucces = true;
     });
     const oneSec = Duration(milliseconds: 1000);
     _timer = Timer.periodic(oneSec, (timer) {
       setState(() {
+        isSucces = false;
         isLoading = false;
         isVerified = true;
       });
@@ -65,106 +82,138 @@ class _verifyOTPscreenState extends State<verifyOTPscreen> {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(24.0),
-          child: Column(
-            children: [
-              const SizedBox(height: 160),
-              Hero(tag: 'appLogo', child: AppLogo(height: 80)),
-              const SizedBox(height: 16),
-              Text(
-                'Enter OTP code',
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-              Text(
-                'A 4 digit OTP code has been sent',
-                style: Theme.of(context).textTheme.bodySmall,
-              ),
-              const SizedBox(height: 16),
-              PinCodeTextField(
-                keyboardType: TextInputType.number,
-                length: 4,
-                obscureText: false,
-                animationType: AnimationType.fade,
-                pinTheme: PinTheme(
-                    shape: PinCodeFieldShape.box,
-                    borderRadius: BorderRadius.circular(5),
-                    fieldHeight: 50,
-                    fieldWidth: 40,
-                    activeFillColor: Colors.white,
-                    inactiveColor: AppColors.primaryColor,
-                    activeColor: AppColors.primaryColor,
-                    selectedColor: Colors.purpleAccent,
-                    inactiveFillColor: Colors.white,
-                    selectedFillColor: Colors.white),
-                animationDuration: Duration(milliseconds: 300),
-                backgroundColor: Colors.blue.shade50,
-                enableActiveFill: true,
-                onCompleted: (v) {
-                  setState(() {
-                    code = v;
-                  });
-                },
-                beforeTextPaste: (text) {
-                  print("Allowing to paste $text");
-                  //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
-                  //but you can show anything you want here, like your pop up saying wrong paste format or etc
-                  return true;
-                },
-                appContext: context,
-              ),
-              const SizedBox(height: 12),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: code.length < 4
-                      ? null
-                      : () {
-                          Verify();
-                         Future.delayed(const Duration(seconds:2 ),(){
-                            Get.to(const Complete_profileScreen());
-                          });
-
-                        },
-                  child: isLoading
-                      ? Container(
-                          width: 20,
-                          height: 20,
-                          child: const CircularProgressIndicator(
-                            backgroundColor: Colors.black,
-                            strokeWidth: 3,
-                            color: Colors.white,
-                          ),
-                        )
-                      : isVerified
-                          ? const Icon(Icons.check_circle_outline)
-                          : const Text('Next',style: TextStyle(color: Colors.white),),
+          child: Form(
+            key: _formkey,
+            child: Column(
+              children: [
+                const SizedBox(height: 160),
+                Hero(tag: 'appLogo', child: AppLogo(height: 80)),
+                const SizedBox(height: 16),
+                Text(
+                  'Enter OTP code',
+                  style: Theme.of(context).textTheme.titleLarge,
                 ),
-              ),
-              const SizedBox(height: 12),
-              RichText(
-                text: TextSpan(
-                    style: const TextStyle(color: Colors.grey),
-                    children: [
-                      const TextSpan(text: 'This code will expire  '),
-                      TextSpan(
-                        text: '${_start.toString()}s',
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.primaryColor,
+                Text(
+                  'A 4 digit OTP code has been sent to this',
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+                Text(
+                  widget.email ?? '',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                ),
+                const SizedBox(height: 16),
+                PinCodeTextField(
+                  controller: _Verifyotpcontroller,
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return 'Enter OTP';
+                    }
+                    return null;
+                  },
+                  keyboardType: TextInputType.number,
+                  length: 4,
+                  obscureText: false,
+                  animationType: AnimationType.fade,
+                  pinTheme: PinTheme(
+                      shape: PinCodeFieldShape.box,
+                      borderRadius: BorderRadius.circular(5),
+                      fieldHeight: 50,
+                      fieldWidth: 40,
+                      activeFillColor: Colors.white,
+                      inactiveColor: AppColors.primaryColor,
+                      activeColor: AppColors.primaryColor,
+                      selectedColor: Colors.purpleAccent,
+                      inactiveFillColor: Colors.white,
+                      selectedFillColor: Colors.white),
+                  animationDuration: const Duration(milliseconds: 300),
+                  backgroundColor: Colors.blue.shade50,
+                  enableActiveFill: true,
+                  onCompleted: (v) {
+                    setState(() {
+                      code = v;
+                    });
+                  },
+                  beforeTextPaste: (text) {
+                    return true;
+                  },
+                  appContext: context,
+                ),
+                const SizedBox(height: 12),
+                SizedBox(
+                  width: double.infinity,
+                  child:
+                      GetBuilder<Verify_OTP_controller>(builder: (controller) {
+                    return Visibility(
+                      replacement: const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                      visible: controller.inProgress == false,
+                      child: ElevatedButton(
+                        onPressed: code.length < 4
+                            ? null
+                            : () async {
+                                Verify();
+                                Future.delayed(const Duration(seconds: 0),
+                                    () async {
+                                  final bool result =
+                                      await controller.VerifyOTP(widget.email,
+                                          _Verifyotpcontroller.text);
+                                  if (result) {
+                                    if (controller
+                                        .shouldNavigateToCompleteProfile) {
+                                      Get.to(
+                                          () => const Complete_profileScreen());
+                                    } else {
+                                      Get.offAll(
+                                          () => const MainBottom_Nav_Screen());
+                                    }
+                                  } else {
+                                    Get.showSnackbar(GetSnackBar(
+                                      title: 'Failed',
+                                      message: controller.errorMessage,
+                                      duration: const Duration(seconds: 2),
+                                      isDismissible: true,
+                                    ));
+                                  }
+                                });
+                              },
+                        child: const Text(
+                          'Next',
+                          style: TextStyle(color: Colors.white),
                         ),
                       ),
-                    ]),
-              ),
-              TextButton(
-                onPressed: () {
-                  if (isResend) return;
-                  resend();
-                },
-                child: const Text(
-                  'Resend',
-                  style: TextStyle(color: Colors.grey),
+                    );
+                  }),
                 ),
-              ),
-            ],
+                const SizedBox(height: 12),
+                RichText(
+                  text: TextSpan(
+                      style: const TextStyle(color: Colors.grey),
+                      children: [
+                        const TextSpan(text: 'This code will expire  '),
+                        TextSpan(
+                          text: '${_start.toString()}s',
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.primaryColor,
+                          ),
+                        ),
+                      ]),
+                ),
+                GetBuilder<SendOTPEmail_Controller>(builder: (controller) {
+                  return TextButton(
+                    onPressed: () {
+                      if (isResend) return;
+                      resend();
+                    },
+                    child: const Text(
+                      'Resend',
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                  );
+                }),
+              ],
+            ),
           ),
         ),
       ),

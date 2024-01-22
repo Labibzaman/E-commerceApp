@@ -7,19 +7,20 @@ class SendOTPEmail_Controller extends GetxController {
   bool _inProgress = false;
   String? _errorMessage;
 
-  String? get errorMessage => _errorMessage;
+  String ? get errorMessage => _errorMessage;
 
   bool get inProgress => _inProgress;
 
-  Future<bool> sendOTP(String url) async {
+  Future<bool> sendOTP(String email) async {
     _inProgress = true;
     update();
 
     final ResponseData response =
-        await NetworkCaller().getRequest(Urls.sendOTPemail(url));
+        await NetworkCaller().getRequest(Urls.sendOTPemail(email));
     _inProgress = false;
+    update();
     if (response.isSuccess) {
-      update();
+
       return true;
     } else {
       _errorMessage = response.errorMessage;
