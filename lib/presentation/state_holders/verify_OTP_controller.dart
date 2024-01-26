@@ -21,7 +21,7 @@ class Verify_OTP_controller extends GetxController {
     _inProgress = true;
     update();
 
-    final ResponseData response =
+    final  response =
         await NetworkCaller().getRequest(Urls.VerifyOTPemail(email, OTP));
 
     _inProgress = false;
@@ -35,7 +35,7 @@ class Verify_OTP_controller extends GetxController {
 
       if (result) {
         _shouldNavigateToCompleteProfile =
-            Get.find<Read_Profile_controller>().isProfileCompleted;
+            Get.find<Read_Profile_controller>().isProfileCompleted ==false;
       } else {
         _errorMessage = Get.find<Read_Profile_controller>().errorMessage!;
         update();

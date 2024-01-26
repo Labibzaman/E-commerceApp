@@ -149,34 +149,26 @@ class _verifyOTPscreenState extends State<verifyOTPscreen> {
                       ),
                       visible: controller.inProgress == false,
                       child: ElevatedButton(
-                        onPressed: code.length < 4
-                            ? null
-                            : () async {
-                                Verify();
-                                Future.delayed(const Duration(seconds: 0),
-                                    () async {
-                                  final bool result =
-                                      await controller.VerifyOTP(widget.email,
-                                          _Verifyotpcontroller.text);
-                                  if (result) {
-                                    if (controller
-                                        .shouldNavigateToCompleteProfile) {
-                                      Get.to(
-                                          () => const Complete_profileScreen());
-                                    } else {
-                                      Get.offAll(
-                                          () => const MainBottom_Nav_Screen());
-                                    }
-                                  } else {
-                                    Get.showSnackbar(GetSnackBar(
-                                      title: 'Failed',
-                                      message: controller.errorMessage,
-                                      duration: const Duration(seconds: 2),
-                                      isDismissible: true,
-                                    ));
-                                  }
-                                });
-                              },
+                        onPressed: () async {
+                          if (_formkey.currentState!.validate()) {
+                            final bool response = await controller.VerifyOTP(
+                                widget.email, _Verifyotpcontroller.text);
+                            if (response) {
+                              if (controller.shouldNavigateToCompleteProfile) {
+                                Get.to(() => const Complete_profileScreen());
+                              } else {
+                                Get.offAll(() => const MainBottom_Nav_Screen());
+                              }
+                            } else {
+                              Get.showSnackbar(GetSnackBar(
+                                title: 'OTP verification failed',
+                                message: controller.errorMessage,
+                                duration: const Duration(seconds: 2),
+                                isDismissible: true,
+                              ));
+                            }
+                          }
+                        },
                         child: const Text(
                           'Next',
                           style: TextStyle(color: Colors.white),
