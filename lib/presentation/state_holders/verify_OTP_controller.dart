@@ -1,9 +1,7 @@
-import 'package:crafty_bay/data/models/ResponseDATA.dart';
 import 'package:crafty_bay/data/service/Network_Caller.dart';
 import 'package:crafty_bay/data/utility/URls.dart';
 import 'package:crafty_bay/presentation/state_holders/auth_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/read_profile_controller.dart';
-import 'package:crafty_bay/presentation/ui/screens/auth/complete_profile_screen.dart';
 import 'package:get/get.dart';
 
 class Verify_OTP_controller extends GetxController {
@@ -18,27 +16,29 @@ class Verify_OTP_controller extends GetxController {
 
   bool get inProgress => _inProgress;
 
+  String _token = '';
+
+  String get token => _token;
   Future<bool> VerifyOTP(String email, String OTP) async {
     _inProgress = true;
     update();
-
     final response =
         await NetworkCaller().getRequest(Urls.VerifyOTPemail(email, OTP));
-
     _inProgress = false;
 
     if (response.isSuccess) {
-      final token = response.responseData['data'];
+       _token = response.responseData['data'];
       await Future.delayed(const Duration(seconds: 3));
 
       final result =
           await Get.find<Read_Profile_controller>().ReadProfileDATA(token);
 
-      if (result == true) {
+      if (result) {
         _goTOCompleteProfile =
             Get.find<Read_Profile_controller>().isProfileCompleted == false;
         if (_goTOCompleteProfile == false) {
-          Get.find<Auth_Controller>().saveUserInformation(token,Get.find<Read_Profile_controller>().profile);
+          Get.find<Auth_Controller>().saveUserInformation(
+              token, Get.find<Read_Profile_controller>().profile);
         }
       } else {
         _errorMessage = Get.find<Read_Profile_controller>().errorMessage!;

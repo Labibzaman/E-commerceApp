@@ -1,6 +1,5 @@
 import 'package:crafty_bay/presentation/state_holders/send_OTP_controller.dart';
 import 'package:crafty_bay/presentation/ui/screens/auth/verify_OTP_Screens.dart';
-import 'package:crafty_bay/presentation/ui/utility/assets_path.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -74,7 +73,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
                             final bool result = await controller
                                 .sendOTP(emailTEcontroller.text.trim());
                             if (result) {
-                              Get.to( verifyOTPscreen(email: emailTEcontroller.text));
+                              Get.to( verifyOTPscreen(email: emailTEcontroller.text.trim()));
                             } else {
                               Get.showSnackbar(GetSnackBar(
                                 title: 'Failed',

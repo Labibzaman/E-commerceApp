@@ -1,8 +1,6 @@
-import 'package:crafty_bay/data/models/ResponseDATA.dart';
 import 'package:crafty_bay/data/models/profile.dart';
 import 'package:crafty_bay/data/service/Network_Caller.dart';
 import 'package:crafty_bay/data/utility/URls.dart';
-import 'package:crafty_bay/presentation/ui/screens/auth/complete_profile_screen.dart';
 import 'package:get/get.dart';
 
 class Read_Profile_controller extends GetxController {
