@@ -1,4 +1,5 @@
 import 'package:crafty_bay/data/models/ResponseDATA.dart';
+import 'package:crafty_bay/data/models/create_profile_params.dart';
 import 'package:crafty_bay/data/models/profile.dart';
 import 'package:crafty_bay/data/service/Network_Caller.dart';
 import 'package:crafty_bay/data/utility/URls.dart';
@@ -18,20 +19,12 @@ class Complete_profile_controller extends GetxController {
 
   Profile get profile => _profile;
 
-  Future<bool> CreateProfileDATA(String token,String firstName,String lastName,String mobile,String city,String Shipping) async {
+  Future<bool> CreateProfileDATA(token,CreateProfile_params params) async {
     _inProgress = true;
     update();
 
-    Map<String,dynamic> inputParams = {
-      "firstName":firstName,
-      "lastName":lastName,
-      "mobile":mobile,
-      "city":city,
-      "shippingAddress":Shipping
-    };
-
     final response =
-        await NetworkCaller().postRequest(Urls.CreateProfileURL, token: token,body: inputParams);
+        await NetworkCaller().postRequest(Urls.CreateProfileURL, token: token,body: params.toJson());
 
     _inProgress = false;
 

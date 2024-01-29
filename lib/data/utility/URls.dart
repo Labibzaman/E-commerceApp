@@ -6,5 +6,6 @@ class Urls{
   static  VerifyOTPemail(String email,String otp) => '$baseUrl/VerifyLogin/$email/$otp';
   static  String ReadProfileURL = '$baseUrl/ReadProfile';
   static  String CreateProfileURL = '$baseUrl/CreateProfile';
+  static  String ProductListSlider = '$baseUrl/ListProductSlider';
 
 }
