@@ -1,15 +1,18 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../data/models/banner_list_item.dart';
 import '../../utility/appcolors.dart';
 
 class Home_imageCarousel extends StatefulWidget {
   const Home_imageCarousel({
     super.key,
     this.height,
+    required this.BannerList,
   });
 
   final double? height;
+  final List<Banner_list_item> BannerList;
 
   @override
   State<Home_imageCarousel> createState() => _Home_imageCarouselState();
@@ -31,21 +34,55 @@ class _Home_imageCarouselState extends State<Home_imageCarousel> {
             viewportFraction: 1,
             autoPlay: true,
           ),
-          items: [1, 2, 3, 4, 5].map((i) {
+          items: widget.BannerList.map((Banner) {
             return Builder(
               builder: (BuildContext context) {
-                return Container(
-                  width: MediaQuery.of(context).size.width,
-                  margin: const EdgeInsets.symmetric(horizontal: 3.0),
-                  decoration: BoxDecoration(
-                    color: AppColors.primaryColor,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  alignment: Alignment.center,
-                  child: Text(
-                    'text $i',
-                    style: const TextStyle(fontSize: 16.0),
-                  ),
+                return Stack(
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      margin: const EdgeInsets.symmetric(horizontal: 3.0),
+                      decoration: BoxDecoration(
+                        color: AppColors.primaryColor,
+                        borderRadius: BorderRadius.circular(10),
+                        image: DecorationImage(
+                          image: NetworkImage(Banner.image ?? ''),
+                        ),
+                      ),
+                      alignment: Alignment.center,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            width: 120,
+                            child: Text(
+                              Banner.title ?? '',
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          SizedBox(
+                            width: 120,
+                            child: Text(
+                              Banner.shortDes ?? '',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 );
               },
             );
@@ -58,7 +95,7 @@ class _Home_imageCarouselState extends State<Home_imageCarousel> {
               return Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  for (int i = 0; i < 5; i++)
+                  for (int i = 0; i < widget.BannerList.length; i++)
                     Container(
                       height: 14,
                       width: 14,

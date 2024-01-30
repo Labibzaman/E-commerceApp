@@ -1,3 +1,4 @@
+import 'package:crafty_bay/data/models/Banner_list_model.dart';
 import 'package:crafty_bay/data/models/profile.dart';
 import 'package:crafty_bay/data/service/Network_Caller.dart';
 import 'package:crafty_bay/data/utility/URls.dart';
@@ -11,37 +12,31 @@ class Product_list_Slider extends GetxController {
 
   bool get inProgress => _inProgress;
 
-  Profile _profile = Profile();
+  BannerListModel _bannerListModel = BannerListModel();
 
-  Profile get profile => _profile;
+  BannerListModel get bannerListModel => _bannerListModel;
 
-  bool _isProfileCompleted = false;
+  bool _isSuccess = false;
 
-  bool get isProfileCompleted => _isProfileCompleted;
+  bool get isProfileCompleted => _isSuccess;
 
-  Future<bool> getSliderlist(String token) async {
+  Future<bool> getSliderlist() async {
     _inProgress = true;
     update();
 
-    final response =
-    await NetworkCaller().getRequest(Urls.ProductListSlider);
+    final response = await NetworkCaller().getRequest(Urls.ProductListSlider);
 
     _inProgress = false;
 
     if (response.isSuccess) {
-      final profileData = response.responseData['data'];
-      if (profileData.isEmpty) {
-        _isProfileCompleted = false;
-      } else {
-        _profile = Profile.fromJson(profileData[0]);
-        _isProfileCompleted = true;
-      }
-      update();
-      return true;
+      final bannerData = response.responseData;
+      _bannerListModel = BannerListModel.fromJson(bannerData);
+
+      _isSuccess = true;
     } else {
       _errorMessage = response.errorMessage;
-      update();
-      return false;
     }
+    update();
+    return _isSuccess;
   }
 }

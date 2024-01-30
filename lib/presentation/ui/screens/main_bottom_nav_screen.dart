@@ -5,7 +5,10 @@ import 'package:crafty_bay/presentation/ui/screens/category_screen.dart';
 import 'package:crafty_bay/presentation/ui/screens/wishList.dart';
 import 'package:crafty_bay/presentation/ui/utility/appcolors.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
+
+import '../../state_holders/product_list_slider_controller.dart';
 
 class MainBottom_Nav_Screen extends StatefulWidget {
   const MainBottom_Nav_Screen({super.key});
@@ -22,6 +25,11 @@ class _MainBottom_Nav_ScreenState extends State<MainBottom_Nav_Screen> {
     const WishList_screen(),
   ];
 
+  @override
+  void initState() {
+    super.initState();
+    Get.find<Product_list_Slider>().getSliderlist();
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -1,5 +1,6 @@
 import 'package:crafty_bay/presentation/state_holders/auth_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/main_nav_bottom_controller.dart';
+import 'package:crafty_bay/presentation/state_holders/product_list_slider_controller.dart';
 import 'package:crafty_bay/presentation/ui/screens/auth/verify_email_screen.dart';
 import 'package:crafty_bay/presentation/ui/screens/category_screen.dart';
 import 'package:crafty_bay/presentation/ui/screens/productList_screen.dart';
@@ -8,6 +9,9 @@ import 'package:crafty_bay/presentation/ui/utility/assets_path.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import '../../../data/models/banner_list_item.dart';
+import '../../../data/models/banner_list_item.dart';
+import '../../../data/models/banner_list_item.dart';
 import '../widgets/categoryItem.dart';
 import '../widgets/home/category_seeAll.dart';
 import '../widgets/home/circle_Icon_Button.dart';
@@ -34,7 +38,19 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 buildTextFormField,
                 const SizedBox(height: 10),
-                const Home_imageCarousel(),
+                SizedBox(
+                    height: 230,
+                    child: GetBuilder<Product_list_Slider>(
+                        builder: (bannerController) {
+                      return Visibility(
+                          visible: bannerController.inProgress == false,
+                          replacement:
+                              const Center(child: CircularProgressIndicator()),
+                          child:  Home_imageCarousel(
+                            BannerList:
+                                bannerController.bannerListModel.BannerList??[]
+                          ));
+                    })),
                 const SizedBox(height: 8),
                 homeCategoryandSeeText(
                   title: 'All Categories',
@@ -136,8 +152,8 @@ class _HomeScreenState extends State<HomeScreen> {
       elevation: 0,
       actions: [
         CircleIconButton(
-          onTap: () async{
-           await Get.find<Auth_Controller>().clearDATA();
+          onTap: () async {
+            await Get.find<Auth_Controller>().clearDATA();
             Get.offAll(() => const VerifyEmailScreen());
           },
           iconData: Icons.person,

@@ -1,17 +1,17 @@
 import 'banner_list_item.dart';
 
-class BannerList {
+class BannerListModel {
   String? msg;
-  List<Banner_list_item>? data;
+  List<Banner_list_item>? BannerList;
 
-  BannerList({this.msg, this.data});
+  BannerListModel({this.msg, this.BannerList});
 
-  BannerList.fromJson(Map<String, dynamic> json) {
+  BannerListModel.fromJson(Map<String, dynamic> json) {
     msg = json['msg'];
     if (json['data'] != null) {
-      data = <Banner_list_item>[];
+      BannerList = <Banner_list_item>[];
       json['data'].forEach((v) {
-        data!.add(Banner_list_item.fromJson(v));
+        BannerList!.add(Banner_list_item.fromJson(v));
       });
     }
   }
@@ -19,8 +19,8 @@ class BannerList {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['msg'] = msg;
-    if (this.data != null) {
-      data['data'] = this.data!.map((v) => v.toJson()).toList();
+    if (this.BannerList != null) {
+      data['data'] = this.BannerList!.map((v) => v.toJson()).toList();
     }
     return data;
   }
