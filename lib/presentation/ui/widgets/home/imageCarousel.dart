@@ -45,38 +45,50 @@ class _Home_imageCarouselState extends State<Home_imageCarousel> {
                       decoration: BoxDecoration(
                         color: AppColors.primaryColor,
                         borderRadius: BorderRadius.circular(10),
-                        image: DecorationImage(
-                          image: NetworkImage(Banner.image ?? ''),
-                        ),
                       ),
                       alignment: Alignment.center,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          SizedBox(
-                            width: 120,
-                            child: Text(
-                              Banner.title ?? '',
-                              style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  width: 112,
+                                  child: Text(
+                                    Banner.title ?? '',
+                                    style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                SizedBox(
+                                  width: 100,
+                                  child: Text(
+                                    Banner.shortDes ?? '',
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                           SizedBox(
-                            height: 10,
-                          ),
-                          SizedBox(
-                            width: 120,
-                            child: Text(
-                              Banner.shortDes ?? '',
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w400,
-                                fontSize: 12,
-                              ),
+                            height: 145,
+                            width: 188,
+                            child: Image.network(
+                              Banner.image ?? '',
+                              fit: BoxFit.cover,
                             ),
                           ),
                         ],
