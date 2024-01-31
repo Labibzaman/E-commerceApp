@@ -7,5 +7,6 @@ class Urls{
   static  String ReadProfileURL = '$baseUrl/ReadProfile';
   static  String CreateProfileURL = '$baseUrl/CreateProfile';
   static  String ProductListSlider = '$baseUrl/ListProductSlider';
+  static  String categoryList = '$baseUrl/CategoryList';
 
 }

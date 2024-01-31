@@ -1,3 +1,4 @@
+import 'package:crafty_bay/presentation/state_holders/Category_list_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/auth_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/main_nav_bottom_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/product_list_slider_controller.dart';
@@ -46,10 +47,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           visible: bannerController.inProgress == false,
                           replacement:
                               const Center(child: CircularProgressIndicator()),
-                          child:  Home_imageCarousel(
-                            BannerList:
-                                bannerController.bannerListModel.BannerList??[]
-                          ));
+                          child: Home_imageCarousel(
+                              BannerList:
+                                  bannerController.bannerListModel.BannerList ??
+                                      []));
                     })),
                 const SizedBox(height: 8),
                 homeCategoryandSeeText(
@@ -87,18 +88,27 @@ class _HomeScreenState extends State<HomeScreen> {
   SizedBox get CategoryList_View {
     return SizedBox(
       height: 120,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        shrinkWrap: true,
-        primary: false,
-        itemCount: 10,
-        itemBuilder: (BuildContext context, int index) {
-          return const CategoryItemList();
-        },
-        separatorBuilder: (BuildContext context, int index) {
-          return const Divider(height: 8);
-        },
-      ),
+      child: GetBuilder<CategoryList_controller>(builder: (categoryController) {
+        return Visibility(
+          visible: categoryController.inProgress==false,
+          replacement: const Center(child: CircularProgressIndicator()),
+          child: ListView.separated(
+            scrollDirection: Axis.horizontal,
+            shrinkWrap: true,
+            primary: false,
+            itemCount:
+                categoryController.CategoryListModel.CategoryList?.length ?? 0,
+            itemBuilder: (BuildContext context, int index) {
+              return CategoryItemList(
+                category: categoryController.CategoryListModel.CategoryList![index],
+              );
+            },
+            separatorBuilder: (BuildContext context, int index) {
+              return const Divider(height: 8);
+            },
+          ),
+        );
+      }),
     );
   }
 

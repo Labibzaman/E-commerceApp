@@ -5,7 +5,7 @@ import 'package:crafty_bay/data/service/Network_Caller.dart';
 import 'package:crafty_bay/data/utility/URls.dart';
 import 'package:get/get.dart';
 
-class Product_list_Slider extends GetxController {
+class CategoryList_controller extends GetxController {
   bool _inProgress = false;
   String _errorMessage = '';
 
@@ -21,11 +21,11 @@ class Product_list_Slider extends GetxController {
 
   bool get isProfileCompleted => _isSuccess;
 
-  Future<bool> getSliderlist() async {
+  Future<bool> getCategoryList() async {
     _inProgress = true;
     update();
 
-    final response = await NetworkCaller().getRequest(Urls.ProductListSlider);
+    final response = await NetworkCaller().getRequest(Urls.categoryList);
 
     _inProgress = false;
 

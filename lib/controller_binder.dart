@@ -1,3 +1,4 @@
+import 'package:crafty_bay/presentation/state_holders/Category_list_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/Complete_profile_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/auth_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/main_nav_bottom_controller.dart';
@@ -18,5 +19,6 @@ class ControlBinder extends Bindings {
     Get.put(Auth_Controller());
     Get.put(Complete_profile_controller());
     Get.put(Product_list_Slider());
+    Get.put(CategoryList_controller());
   }
 }

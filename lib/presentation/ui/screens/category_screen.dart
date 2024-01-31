@@ -1,3 +1,4 @@
+import 'package:crafty_bay/presentation/state_holders/Category_list_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/main_nav_bottom_controller.dart';
 import 'package:crafty_bay/presentation/ui/widgets/categoryItem.dart';
 import 'package:flutter/material.dart';
@@ -37,19 +38,36 @@ class _Category_ScreenState extends State<Category_Screen> {
             style: TextStyle(fontSize: 18, color: Colors.black54),
           ),
         ),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 4,
-              crossAxisSpacing: 8,
-              mainAxisSpacing: 12,
-              childAspectRatio: 0.90,
+        body: RefreshIndicator(
+          onRefresh: () async{
+           await Get.find<CategoryList_controller>().getCategoryList();
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: GetBuilder<CategoryList_controller>(
+              builder: (categoryController) {
+                return Visibility(
+                  visible: categoryController.inProgress==false,
+                  replacement: const Center(child: CircularProgressIndicator()),
+                  child: GridView.builder(
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 4,
+                      crossAxisSpacing: 8,
+                      mainAxisSpacing: 12,
+                      childAspectRatio: 0.90,
+                    ),
+                    itemCount: categoryController.CategoryListModel.CategoryList?.length??0,
+                    itemBuilder: (BuildContext context, int index) {
+                      return  FittedBox(
+                        child: CategoryItemList(
+                          category: categoryController.CategoryListModel.CategoryList![index],
+                        ),
+                      );
+                    },
+                  ),
+                );
+              }
             ),
-            itemCount: 20,
-            itemBuilder: (BuildContext context, int index) {
-              return const FittedBox(child: CategoryItemList());
-            },
           ),
         ),
       ),
