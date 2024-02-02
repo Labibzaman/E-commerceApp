@@ -35,7 +35,7 @@ class _ProductList_ScreenState extends State<ProductList_Screen> {
           ),
           itemCount: 20,
           itemBuilder: (BuildContext context, int index) {
-            return const FittedBox(child: ProductCard_item());
+            // return const FittedBox(child: ProductCard_item());
           },
         ),
       ),

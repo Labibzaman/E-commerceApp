@@ -1,4 +1,5 @@
 import 'package:crafty_bay/presentation/state_holders/Category_list_controller.dart';
+import 'package:crafty_bay/presentation/state_holders/Popular_product_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/auth_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/main_nav_bottom_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/product_list_slider_controller.dart';
@@ -66,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Get.to(const ProductList_Screen());
                   },
                 ),
-                ProductListCardView,
+                PopularProductView,
                 homeCategoryandSeeText(
                   title: 'Special',
                   onTapSeeAll: () {},
@@ -121,11 +122,33 @@ class _HomeScreenState extends State<HomeScreen> {
         primary: false,
         itemCount: 10,
         itemBuilder: (BuildContext context, int index) {
-          return const ProductCard_item();
+          // return const ProductCard_item();
         },
         separatorBuilder: (BuildContext context, int index) {
           return const Divider(height: 8);
         },
+      ),
+    );
+  }
+
+  SizedBox get PopularProductView {
+    return SizedBox(
+      height: 200,
+      child: GetBuilder<PopularProduct_controller>(
+        builder: (popularController) {
+          return ListView.separated(
+            scrollDirection: Axis.horizontal,
+            shrinkWrap: true,
+            primary: false,
+            itemCount: popularController.PopularListModel.data?.length??0,
+            itemBuilder: (BuildContext context, int index) {
+              return  ProductCard_item(product: popularController.PopularListModel.data![index],);
+            },
+            separatorBuilder: (BuildContext context, int index) {
+              return const Divider(height: 8);
+            },
+          );
+        }
       ),
     );
   }

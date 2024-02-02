@@ -1,4 +1,5 @@
 import 'package:crafty_bay/presentation/state_holders/Category_list_controller.dart';
+import 'package:crafty_bay/presentation/state_holders/Popular_product_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/main_nav_bottom_controller.dart';
 import 'package:crafty_bay/presentation/ui/screens/Cart.dart';
 import 'package:crafty_bay/presentation/ui/screens/HomeScreen.dart';
@@ -31,6 +32,7 @@ class _MainBottom_Nav_ScreenState extends State<MainBottom_Nav_Screen> {
     super.initState();
     Get.find<Product_list_Slider>().getSliderlist();
     Get.find<CategoryList_controller>().getCategoryList();
+    Get.find<PopularProduct_controller>().getPopularList();
   }
 
   @override

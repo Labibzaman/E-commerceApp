@@ -1,3 +1,4 @@
+import 'package:crafty_bay/data/models/productItem_model.dart';
 import 'package:crafty_bay/presentation/ui/screens/productDetails_Screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -7,8 +8,9 @@ import '../utility/assets_path.dart';
 
 class ProductCard_item extends StatelessWidget {
   const ProductCard_item({
-    super.key,
+    super.key, required this.product,
   });
+  final ProductList_item product;
 
   @override
   Widget build(BuildContext context) {
@@ -28,19 +30,19 @@ class ProductCard_item extends StatelessWidget {
                     topLeft: Radius.circular(8),
                     topRight: Radius.circular(8),
                     bottomLeft: Radius.circular(8)),
-                child: Image.asset(
-                  AssetsPath.shoePng,
-                  width: 150,
-                  height: 130,
-                  fit: BoxFit.cover,
+                child: Image.network(
+                 product.image??'',
+                  width: 120,
+                  height: 100,
+                  fit: BoxFit.scaleDown,
                 ),
               ),
               Column(
                 children: [
-                  const Text(
-                    'Nike Air Jordan',
+                   Text(
+                    product.title??'',
                     maxLines: 1,
-                    style: TextStyle(
+                    style: const TextStyle(
                         fontSize: 12,
                         color: Colors.black54,
                         fontWeight: FontWeight.w500,
@@ -52,9 +54,9 @@ class ProductCard_item extends StatelessWidget {
                       const SizedBox(
                         height: 10,
                       ),
-                      const Text(
-                        '\$120',
-                        style: TextStyle(color: AppColors.primaryColor),
+                       Text(
+                        '\$${product.price??''}',
+                        style: const TextStyle(color: AppColors.primaryColor),
                       ),
                       const SizedBox(
                         width: 8,
@@ -66,9 +68,9 @@ class ProductCard_item extends StatelessWidget {
                             Icons.star,
                             color: Colors.amber,
                           ),
-                          const Text(
-                            '4.5',
-                            style: TextStyle(color: Colors.black45),
+                            Text(
+                            '${product.star??0}',
+                            style: const TextStyle(color: Colors.black45),
                           ),
                           const SizedBox(
                             width: 10,
