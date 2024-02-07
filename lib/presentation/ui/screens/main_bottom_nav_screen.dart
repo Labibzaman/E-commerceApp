@@ -1,6 +1,8 @@
 import 'package:crafty_bay/presentation/state_holders/Category_list_controller.dart';
+import 'package:crafty_bay/presentation/state_holders/New_Product_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/Popular_product_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/main_nav_bottom_controller.dart';
+import 'package:crafty_bay/presentation/state_holders/special_product_controller.dart';
 import 'package:crafty_bay/presentation/ui/screens/Cart.dart';
 import 'package:crafty_bay/presentation/ui/screens/HomeScreen.dart';
 import 'package:crafty_bay/presentation/ui/screens/category_screen.dart';
@@ -8,18 +10,17 @@ import 'package:crafty_bay/presentation/ui/screens/wishList.dart';
 import 'package:crafty_bay/presentation/ui/utility/appcolors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/src/simple/get_state.dart';
 
 import '../../state_holders/product_list_slider_controller.dart';
 
-class MainBottom_Nav_Screen extends StatefulWidget {
-  const MainBottom_Nav_Screen({super.key});
+class MainBottoma_navScreen extends StatefulWidget {
+  const MainBottoma_navScreen({super.key});
 
   @override
-  State<MainBottom_Nav_Screen> createState() => _MainBottom_Nav_ScreenState();
+  State<MainBottoma_navScreen> createState() => _MainBottoma_navScreenState();
 }
 
-class _MainBottom_Nav_ScreenState extends State<MainBottom_Nav_Screen> {
+class _MainBottoma_navScreenState extends State<MainBottoma_navScreen> {
   final List<Widget> _screens=[
     const HomeScreen(),
     const Category_Screen(),
@@ -33,6 +34,8 @@ class _MainBottom_Nav_ScreenState extends State<MainBottom_Nav_Screen> {
     Get.find<Product_list_Slider>().getSliderlist();
     Get.find<CategoryList_controller>().getCategoryList();
     Get.find<PopularProduct_controller>().getPopularList();
+    Get.find<SpecialProduct_controller>().getSpecialList();
+    Get.find<NewProduct_controller>().getNewList();
   }
 
   @override

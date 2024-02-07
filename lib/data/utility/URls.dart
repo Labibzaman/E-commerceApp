@@ -9,5 +9,9 @@ class Urls{
   static  String ProductListSlider = '$baseUrl/ListProductSlider';
   static  String categoryList = '$baseUrl/CategoryList';
   static  String popularList = '$baseUrl/ListProductByRemark/Popular';
+  static  String SpecialList = '$baseUrl/ListProductByRemark/Special';
+  static  String NewList = '$baseUrl/ListProductByRemark/New';
+  static  String ListbyCategory(int CategoryID) => '$baseUrl/ListProductByCategory/${CategoryID}';
+  static  String ProductListDetails(int ProductID) => '$baseUrl/ProductDetailsById/${ProductID}';
 
 }

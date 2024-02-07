@@ -1,8 +1,10 @@
 import 'package:crafty_bay/presentation/state_holders/Category_list_controller.dart';
+import 'package:crafty_bay/presentation/state_holders/New_Product_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/Popular_product_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/auth_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/main_nav_bottom_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/product_list_slider_controller.dart';
+import 'package:crafty_bay/presentation/state_holders/special_product_controller.dart';
 import 'package:crafty_bay/presentation/ui/screens/auth/verify_email_screen.dart';
 import 'package:crafty_bay/presentation/ui/screens/category_screen.dart';
 import 'package:crafty_bay/presentation/ui/screens/productList_screen.dart';
@@ -14,6 +16,7 @@ import 'package:get/get_core/src/get_main.dart';
 import '../../../data/models/banner_list_item.dart';
 import '../../../data/models/banner_list_item.dart';
 import '../../../data/models/banner_list_item.dart';
+import '../../../data/models/productItem_model.dart';
 import '../widgets/categoryItem.dart';
 import '../widgets/home/category_seeAll.dart';
 import '../widgets/home/circle_Icon_Button.dart';
@@ -67,17 +70,46 @@ class _HomeScreenState extends State<HomeScreen> {
                     Get.to(const ProductList_Screen());
                   },
                 ),
-                PopularProductView,
+                GetBuilder<PopularProduct_controller>(
+                    builder: (popularProductController) {
+                  return Visibility(
+                      visible: popularProductController.inProgress == false,
+                      replacement:
+                          const Center(child: CircularProgressIndicator()),
+                      child: ProductListCardView(
+                          popularProductController.PopularListModel.data ??
+                              []));
+                }),
                 homeCategoryandSeeText(
                   title: 'Special',
                   onTapSeeAll: () {},
                 ),
-                ProductListCardView,
+                GetBuilder<SpecialProduct_controller>(
+                  builder: (specialProductController) {
+                    return Visibility(
+                      visible: specialProductController.inProgress == false,
+                      replacement:
+                          const Center(child: CircularProgressIndicator()),
+                      child: ProductListCardView(
+                          specialProductController.SpecialListModel.data ?? []),
+                    );
+                  },
+                ),
                 homeCategoryandSeeText(
                   title: 'New',
                   onTapSeeAll: () {},
                 ),
-                ProductListCardView
+                GetBuilder<NewProduct_controller>(
+                  builder: (NewProductController) {
+                    return Visibility(
+                      visible: NewProductController.inProgress == false,
+                      replacement:
+                          const Center(child: CircularProgressIndicator()),
+                      child: ProductListCardView(
+                          NewProductController.NewListModel.data ?? []),
+                    );
+                  },
+                ),
               ],
             ),
           ),
@@ -91,7 +123,7 @@ class _HomeScreenState extends State<HomeScreen> {
       height: 120,
       child: GetBuilder<CategoryList_controller>(builder: (categoryController) {
         return Visibility(
-          visible: categoryController.inProgress==false,
+          visible: categoryController.inProgress == false,
           replacement: const Center(child: CircularProgressIndicator()),
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
@@ -101,7 +133,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 categoryController.CategoryListModel.CategoryList?.length ?? 0,
             itemBuilder: (BuildContext context, int index) {
               return CategoryItemList(
-                category: categoryController.CategoryListModel.CategoryList![index],
+                category:
+                    categoryController.CategoryListModel.CategoryList![index],
               );
             },
             separatorBuilder: (BuildContext context, int index) {
@@ -113,42 +146,22 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  SizedBox get ProductListCardView {
+  SizedBox ProductListCardView(List<ProductList_item> ProductListCard) {
     return SizedBox(
       height: 200,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         shrinkWrap: true,
         primary: false,
-        itemCount: 10,
+        itemCount: ProductListCard.length,
         itemBuilder: (BuildContext context, int index) {
-          // return const ProductCard_item();
+          return ProductCard_item(
+            product: ProductListCard[index],
+          );
         },
         separatorBuilder: (BuildContext context, int index) {
           return const Divider(height: 8);
         },
-      ),
-    );
-  }
-
-  SizedBox get PopularProductView {
-    return SizedBox(
-      height: 200,
-      child: GetBuilder<PopularProduct_controller>(
-        builder: (popularController) {
-          return ListView.separated(
-            scrollDirection: Axis.horizontal,
-            shrinkWrap: true,
-            primary: false,
-            itemCount: popularController.PopularListModel.data?.length??0,
-            itemBuilder: (BuildContext context, int index) {
-              return  ProductCard_item(product: popularController.PopularListModel.data![index],);
-            },
-            separatorBuilder: (BuildContext context, int index) {
-              return const Divider(height: 8);
-            },
-          );
-        }
       ),
     );
   }

@@ -140,7 +140,7 @@ class _Complete_profileScreenState extends State<Complete_profileScreen> {
                                     Get.find<Verify_OTP_controller>().token,
                                     createdParams);
                             if (result) {
-                              Get.offAll(() => const MainBottom_Nav_Screen());
+                              Get.offAll(() => const MainBottoma_navScreen());
                             } else {
                               Get.showSnackbar(const GetSnackBar(
                                 title: 'Failed',

@@ -157,7 +157,7 @@ class _verifyOTPscreenState extends State<verifyOTPscreen> {
                               if (controller.shouldNavigateToCompleteProfile) {
                                 Get.to(() => const Complete_profileScreen());
                               } else {
-                                Get.offAll(() => const MainBottom_Nav_Screen());
+                                Get.offAll(() => const MainBottoma_navScreen());
                               }
                             } else {
                               Get.showSnackbar(GetSnackBar(
