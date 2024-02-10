@@ -7,9 +7,11 @@ class ProductDetail_Carousel extends StatefulWidget {
   const ProductDetail_Carousel({
     super.key,
     this.height,
+    required this.urls,
   });
 
   final double? height;
+  final List<String> urls;
 
   @override
   State<ProductDetail_Carousel> createState() => _ProductDetail_CarouselState();
@@ -31,21 +33,16 @@ class _ProductDetail_CarouselState extends State<ProductDetail_Carousel> {
             viewportFraction: 1,
             autoPlay: true,
           ),
-          items: [1, 2, 3, 4, 5].map((i) {
+          items: widget.urls.map((url) {
             return Builder(
               builder: (BuildContext context) {
                 return Container(
                   width: MediaQuery.of(context).size.width,
                   margin: const EdgeInsets.symmetric(horizontal: 3.0),
                   decoration: BoxDecoration(
-                    color:Colors.grey,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  alignment: Alignment.center,
-                  child: Text(
-                    'text $i',
-                    style: const TextStyle(fontSize: 16.0),
-                  ),
+                      color:AppColors.primaryColor,
+                      borderRadius: BorderRadius.circular(12),
+                      image: DecorationImage(image: NetworkImage(url))),
                 );
               },
             );
@@ -61,17 +58,19 @@ class _ProductDetail_CarouselState extends State<ProductDetail_Carousel> {
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    for (int i = 0; i < 5; i++)
+                    for (int i = 0;i< widget.urls.length; i++)
                       Container(
                         height: 14,
                         width: 14,
                         margin: const EdgeInsets.all(2),
                         decoration: BoxDecoration(
-                          color:
-                          i == index ? AppColors.primaryColor : Colors.white,
+                          color: i == index
+                              ? AppColors.primaryColor
+                              : Colors.white,
                           border: Border.all(
-                            color:
-                            i == index ? AppColors.primaryColor : Colors.white,
+                            color: i == index
+                                ? AppColors.primaryColor
+                                : Colors.white,
                           ),
                           borderRadius: BorderRadius.circular(30),
                         ),

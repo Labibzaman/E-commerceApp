@@ -1,3 +1,5 @@
+import 'package:crafty_bay/data/models/productItem_model.dart';
+
 import 'ProductList_model.dart';
 
 class ProductDetailsData {
@@ -12,7 +14,7 @@ class ProductDetailsData {
   int? productId;
   String? createdAt;
   String? updatedAt;
-  Popularist_Model? product;
+  ProductList_item? product;
 
   ProductDetailsData(
       {this.id,
@@ -41,7 +43,7 @@ class ProductDetailsData {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     product =
-    json['product'] != null ? Popularist_Model.fromJson(json['product']) : null;
+    json['product'] != null ? ProductList_item.fromJson(json['product']) : null;
   }
 
   Map<String, dynamic> toJson() {
