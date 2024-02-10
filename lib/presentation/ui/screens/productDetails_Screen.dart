@@ -246,7 +246,17 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           SizedBox(
             width: 160,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                if(_selectedSize!=null && _selectedColor!=null){
+
+                }else{
+                  Get.showSnackbar(const GetSnackBar(
+                    title: 'Add to Cart Failed',
+                    message: 'please select color and size',
+                    duration: Duration(seconds: 2),
+                  ));
+                }
+              },
               child: const Text(
                 'Add to Cart',
                 style: TextStyle(color: Colors.white),

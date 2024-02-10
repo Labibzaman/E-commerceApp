@@ -21,6 +21,8 @@ class _SizeSelectorState extends State<SizeSelector> {
     super.initState();
 
     _selectedSize = widget.Sizes.first;
+    widget.Onchanged(_selectedSize);
+
   }
 
 
