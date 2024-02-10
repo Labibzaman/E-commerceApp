@@ -119,46 +119,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           const SizedBox(
             height: 8,
           ),
-          Row(
-            children: [
-              Wrap(
-                crossAxisAlignment: WrapCrossAlignment.center,
-                children: [
-                  const Icon(
-                    Icons.star,
-                    color: Colors.amber,
-                  ),
-                  const Text(
-                    '4.5',
-                    style: TextStyle(color: Colors.black45),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  const Text(
-                    'Reviews',
-                    style: TextStyle(color: AppColors.primaryColor),
-                  ),
-                  const SizedBox(
-                    width: 7,
-                  ),
-                  Card(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12)),
-                    color: AppColors.primaryColor,
-                    child: const Padding(
-                      padding: EdgeInsets.all(4.0),
-                      child: Icon(
-                        Icons.favorite_outline,
-                        color: Colors.white,
-                        size: 20,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
+          ratingAndreview(productDetails.product?.star??0),
           const SizedBox(
             height: 2,
           ),
@@ -211,6 +172,49 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         ],
       ),
     );
+  }
+
+  Row  ratingAndreview(double rating) {
+    return Row(
+          children: [
+            Wrap(
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: [
+                const Icon(
+                  Icons.star,
+                  color: Colors.amber,
+                ),
+                 Text(
+                  rating.toStringAsPrecision(2),
+                  style: const TextStyle(color: Colors.black45),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                const Text(
+                  'Reviews',
+                  style: TextStyle(color: AppColors.primaryColor),
+                ),
+                const SizedBox(
+                  width: 7,
+                ),
+                Card(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12)),
+                  color: AppColors.primaryColor,
+                  child: const Padding(
+                    padding: EdgeInsets.all(4.0),
+                    child: Icon(
+                      Icons.favorite_outline,
+                      color: Colors.white,
+                      size: 20,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        );
   }
 
   Container get AddtoCart_price {
