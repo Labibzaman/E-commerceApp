@@ -1,3 +1,4 @@
+import 'package:crafty_bay/data/models/product_details_data.dart';
 import 'package:crafty_bay/presentation/state_holders/ProductDetails_Controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -28,7 +29,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     Colors.green,
   ];
 
-  Color _selectedColor = Colors.red;
+
 
   List<String> Sizes = [
     'm',
@@ -38,7 +39,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     'XXl',
   ];
 
-  String _selectedSize = 'm';
+  String ?_selectedSize;
+  String? _selectedColor;
 
   @override
   void initState() {
@@ -71,7 +73,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           productDetailsController.productDetails.img4 ??'',
                         ],
                       ),
-                      ProductDetails_Body
+                      ProductDetails_Body(productDetailsController.productDetails)
                     ],
                   ),
                 ),
@@ -84,7 +86,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     );
   }
 
-  Padding get ProductDetails_Body {
+  Padding  ProductDetails_Body(ProductDetailsData productDetails) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -92,9 +94,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         children: [
           Row(
             children: [
-              const Expanded(
+               Expanded(
                 child: Text(
-                  'New Year special Shoe Nike air Jorder - Save 30%',
+                  productDetails.product?.title??'',
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                 ),
               ),
@@ -168,9 +170,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             ),
           ),
           ColorSelector(
-            Productcolors: Productcolors,
+            Productcolors: productDetails.color?.split(',').map((e) => getColorFromStrin(e)).toList() ??[],
             onChanged: (c) {
-              _selectedColor = c;
+              _selectedColor = c.toString();
             },
           ),
           const SizedBox(
@@ -184,7 +186,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             ),
           ),
           SizeSelector(
-            Sizes: Sizes,
+            Sizes: productDetails.size?.split(',')??[],
             Onchanged: (c) {
               _selectedSize = c;
             },
@@ -199,13 +201,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               fontSize: 18,
             ),
           ),
-          const Text(
-            '''Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                        Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
-                        when an unknown printer took a galley of type and scrambled it to make a type specimen book. 
-                        Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
-                        when an unknown printer took a galley of type and scrambled it to make a type specimen book. 
-                        ''',
+           Text(
+           productDetails.des??'',
             style: TextStyle(
               fontWeight: FontWeight.w200,
               fontSize: 14,
@@ -255,5 +252,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         ],
       ),
     );
+  }
+
+  Color getColorFromStrin(String colorCode){
+    String code = colorCode.replaceAll('#', '');
+    String hexCode = 'FF$code';
+    return Color(int.parse('0x$hexCode'));
   }
 }
