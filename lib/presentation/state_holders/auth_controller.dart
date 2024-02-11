@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Auth_Controller extends GetxController {
-  String? token;
+  static String? token;
   Profile? profile;
 
   Future<void> saveUserInformation(String t, Profile p) async {

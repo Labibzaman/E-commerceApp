@@ -31,11 +31,13 @@ class _MainBottoma_navScreenState extends State<MainBottoma_navScreen> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
     Get.find<Product_list_Slider>().getSliderlist();
     Get.find<CategoryList_controller>().getCategoryList();
     Get.find<PopularProduct_controller>().getPopularList();
     Get.find<SpecialProduct_controller>().getSpecialList();
     Get.find<NewProduct_controller>().getNewList();
+    });
   }
 
   @override

@@ -1,5 +1,6 @@
 import 'package:crafty_bay/data/models/product_details_data.dart';
 import 'package:crafty_bay/presentation/state_holders/ProductDetails_Controller.dart';
+import 'package:crafty_bay/presentation/state_holders/add_to_Cart_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/auth_controller.dart';
 import 'package:crafty_bay/presentation/ui/screens/auth/verify_email_screen.dart';
 import 'package:flutter/material.dart';
@@ -250,29 +251,51 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           ),
           SizedBox(
             width: 160,
-            child: ElevatedButton(
-              onPressed: () {
-                if (_selectedSize != null && _selectedColor != null) {
-                  if (Get.find<Auth_Controller>().isTokenNotNull) {
+            child:
+                GetBuilder<AddToCartController>(builder: (addToCartController) {
+              return Visibility(
+                visible:addToCartController.inProgress==false ,
+                replacement: const Center(child: CircularProgressIndicator()),
+                child: ElevatedButton(
+                  onPressed: () async {
+                    if (_selectedSize != null && _selectedColor != null) {
+                      if (Get.find<Auth_Controller>().isTokenNotNull) {
+                        _selectedColor =
+                            colorCodetoHashColorCode(_selectedColor!);
 
-
-
-                  } else {
-                    Get.to(() => const VerifyEmailScreen());
-                  }
-                } else {
-                  Get.showSnackbar(const GetSnackBar(
-                    title: 'Add to Cart Failed',
-                    message: 'please select color and size',
-                    duration: Duration(seconds: 2),
-                  ));
-                }
-              },
-              child: const Text(
-                'Add to Cart',
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
+                        final response = await addToCartController.addToCart(
+                            widget.productId, _selectedColor!, _selectedSize!);
+                        if (response) {
+                          Get.showSnackbar(const GetSnackBar(
+                            title: 'Success',
+                            message: 'Product has been add to cart',
+                            duration: Duration(seconds: 2),
+                          ));
+                        } else {
+                          Get.showSnackbar(GetSnackBar(
+                            title: 'Failed',
+                            message: addToCartController.errorMessage,
+                            duration: const Duration(seconds: 2),
+                          ));
+                        }
+                      } else {
+                        Get.to(() => const VerifyEmailScreen());
+                      }
+                    } else {
+                      Get.showSnackbar(const GetSnackBar(
+                        title: 'Add to Cart Failed',
+                        message: 'please select color and size',
+                        duration: Duration(seconds: 2),
+                      ));
+                    }
+                  },
+                  child: const Text(
+                    'Add to Cart',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              );
+            }),
           ),
         ],
       ),
@@ -283,5 +306,12 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     String code = colorCode.replaceAll('#', '');
     String hexCode = 'FF$code';
     return Color(int.parse('0x$hexCode'));
+  }
+
+  String colorCodetoHashColorCode(String colorCode) {
+    return colorCode
+        .replaceAll('0xff', '#')
+        .replaceAll('Color(', '')
+        .replaceAll(')', '');
   }
 }
