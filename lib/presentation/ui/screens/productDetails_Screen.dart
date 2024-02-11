@@ -252,47 +252,47 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           SizedBox(
             width: 160,
             child:
-                GetBuilder<AddToCartController>(builder: (addToCartController) {
-              return Visibility(
-                visible:addToCartController.inProgress==false ,
-                replacement: const Center(child: CircularProgressIndicator()),
-                child: ElevatedButton(
-                  onPressed: () async {
-                    if (_selectedSize != null && _selectedColor != null) {
-                      if (Get.find<Auth_Controller>().isTokenNotNull) {
-                        _selectedColor =
-                            colorCodetoHashColorCode(_selectedColor!);
+                GetBuilder<AddToCartController>(
+                    builder: (addToCartController) {
+                      if(addToCartController.inProgress){
+                        return const Center(child: CircularProgressIndicator());
+                      }
+              return ElevatedButton(
+                onPressed: () async {
+                  if (_selectedSize != null && _selectedColor != null) {
+                    if (Get.find<Auth_Controller>().isTokenNotNull) {
+                      _selectedColor =
+                          colorCodetoHashColorCode(_selectedColor!);
 
-                        final response = await addToCartController.addToCart(
-                            widget.productId, _selectedColor!, _selectedSize!);
-                        if (response) {
-                          Get.showSnackbar(const GetSnackBar(
-                            title: 'Success',
-                            message: 'Product has been add to cart',
-                            duration: Duration(seconds: 2),
-                          ));
-                        } else {
-                          Get.showSnackbar(GetSnackBar(
-                            title: 'Failed',
-                            message: addToCartController.errorMessage,
-                            duration: const Duration(seconds: 2),
-                          ));
-                        }
+                      final response = await addToCartController.addToCart(
+                          widget.productId, _selectedColor!, _selectedSize!);
+                      if (response) {
+                        Get.showSnackbar(const GetSnackBar(
+                          title: 'Success',
+                          message: 'Product has been add to cart',
+                          duration: Duration(seconds: 2),
+                        ));
                       } else {
-                        Get.to(() => const VerifyEmailScreen());
+                        Get.showSnackbar(GetSnackBar(
+                          title: 'Failed',
+                          message: addToCartController.errorMessage,
+                          duration: const Duration(seconds: 2),
+                        ));
                       }
                     } else {
-                      Get.showSnackbar(const GetSnackBar(
-                        title: 'Add to Cart Failed',
-                        message: 'please select color and size',
-                        duration: Duration(seconds: 2),
-                      ));
+                      Get.to(() => const VerifyEmailScreen());
                     }
-                  },
-                  child: const Text(
-                    'Add to Cart',
-                    style: TextStyle(color: Colors.white),
-                  ),
+                  } else {
+                    Get.showSnackbar(const GetSnackBar(
+                      title: 'Add to Cart Failed',
+                      message: 'please select color and size',
+                      duration: Duration(seconds: 2),
+                    ));
+                  }
+                },
+                child: const Text(
+                  'Add to Cart',
+                  style: TextStyle(color: Colors.white),
                 ),
               );
             }),
