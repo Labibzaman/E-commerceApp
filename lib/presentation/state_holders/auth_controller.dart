@@ -26,6 +26,7 @@ class Auth_Controller extends GetxController {
     await initilize();
     return token != null;
   }
+  bool get isTokenNotNull => token !=null;
 
   Future<String?> getToken() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();

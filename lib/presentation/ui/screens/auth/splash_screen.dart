@@ -24,12 +24,12 @@ class _Splash_ScreenState extends State<Splash_Screen> {
 
   void moveToNextScreen() async {
     await Future.delayed(const Duration(seconds: 2));
-    final bool isLoggedIn = await Get.find<Auth_Controller>().isLoggedIn();
-    if (isLoggedIn == true) {
+    // // final bool isLoggedIn = await Get.find<Auth_Controller>().isLoggedIn();
+    // if (isLoggedIn == true) {
       Get.offAll(() => const MainBottoma_navScreen());
-    } else {
-      Get.offAll(() => const VerifyEmailScreen());
-    }
+    // } else {
+    //   Get.offAll(() => const VerifyEmailScreen());
+    // }
   }
 
   @override

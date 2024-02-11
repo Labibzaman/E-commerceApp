@@ -1,5 +1,7 @@
 import 'package:crafty_bay/data/models/product_details_data.dart';
 import 'package:crafty_bay/presentation/state_holders/ProductDetails_Controller.dart';
+import 'package:crafty_bay/presentation/state_holders/auth_controller.dart';
+import 'package:crafty_bay/presentation/ui/screens/auth/verify_email_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:item_count_number_button/item_count_number_button.dart';
@@ -29,8 +31,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     Colors.green,
   ];
 
-
-
   List<String> Sizes = [
     'm',
     'L',
@@ -39,7 +39,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     'XXl',
   ];
 
-  String ?_selectedSize;
+  String? _selectedSize;
   String? _selectedColor;
 
   @override
@@ -67,13 +67,14 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     children: [
                       ProductDetail_Carousel(
                         urls: [
-                          productDetailsController.productDetails.img1 ??'',
-                          productDetailsController.productDetails.img2 ??'',
-                          productDetailsController.productDetails.img3??'',
-                          productDetailsController.productDetails.img4 ??'',
+                          productDetailsController.productDetails.img1 ?? '',
+                          productDetailsController.productDetails.img2 ?? '',
+                          productDetailsController.productDetails.img3 ?? '',
+                          productDetailsController.productDetails.img4 ?? '',
                         ],
                       ),
-                      ProductDetails_Body(productDetailsController.productDetails)
+                      ProductDetails_Body(
+                          productDetailsController.productDetails)
                     ],
                   ),
                 ),
@@ -86,7 +87,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     );
   }
 
-  Padding  ProductDetails_Body(ProductDetailsData productDetails) {
+  Padding ProductDetails_Body(ProductDetailsData productDetails) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -94,9 +95,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         children: [
           Row(
             children: [
-               Expanded(
+              Expanded(
                 child: Text(
-                  productDetails.product?.title??'',
+                  productDetails.product?.title ?? '',
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                 ),
               ),
@@ -119,7 +120,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           const SizedBox(
             height: 8,
           ),
-          ratingAndreview(productDetails.product?.star??0),
+          ratingAndreview(productDetails.product?.star ?? 0),
           const SizedBox(
             height: 2,
           ),
@@ -131,7 +132,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             ),
           ),
           ColorSelector(
-            Productcolors: productDetails.color?.split(',').map((e) => getColorFromStrin(e)).toList() ??[],
+            Productcolors: productDetails.color
+                    ?.split(',')
+                    .map((e) => getColorFromStrin(e))
+                    .toList() ??
+                [],
             onChanged: (c) {
               _selectedColor = c.toString();
             },
@@ -147,7 +152,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             ),
           ),
           SizeSelector(
-            Sizes: productDetails.size?.split(',')??[],
+            Sizes: productDetails.size?.split(',') ?? [],
             Onchanged: (c) {
               _selectedSize = c;
             },
@@ -162,9 +167,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               fontSize: 18,
             ),
           ),
-           Text(
-           productDetails.des??'',
-            style: TextStyle(
+          Text(
+            productDetails.des ?? '',
+            style: const TextStyle(
               fontWeight: FontWeight.w200,
               fontSize: 14,
             ),
@@ -174,47 +179,47 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     );
   }
 
-  Row  ratingAndreview(double rating) {
+  Row ratingAndreview(double rating) {
     return Row(
+      children: [
+        Wrap(
+          crossAxisAlignment: WrapCrossAlignment.center,
           children: [
-            Wrap(
-              crossAxisAlignment: WrapCrossAlignment.center,
-              children: [
-                const Icon(
-                  Icons.star,
-                  color: Colors.amber,
+            const Icon(
+              Icons.star,
+              color: Colors.amber,
+            ),
+            Text(
+              rating.toStringAsPrecision(2),
+              style: const TextStyle(color: Colors.black45),
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+            const Text(
+              'Reviews',
+              style: TextStyle(color: AppColors.primaryColor),
+            ),
+            const SizedBox(
+              width: 7,
+            ),
+            Card(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12)),
+              color: AppColors.primaryColor,
+              child: const Padding(
+                padding: EdgeInsets.all(4.0),
+                child: Icon(
+                  Icons.favorite_outline,
+                  color: Colors.white,
+                  size: 20,
                 ),
-                 Text(
-                  rating.toStringAsPrecision(2),
-                  style: const TextStyle(color: Colors.black45),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                const Text(
-                  'Reviews',
-                  style: TextStyle(color: AppColors.primaryColor),
-                ),
-                const SizedBox(
-                  width: 7,
-                ),
-                Card(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12)),
-                  color: AppColors.primaryColor,
-                  child: const Padding(
-                    padding: EdgeInsets.all(4.0),
-                    child: Icon(
-                      Icons.favorite_outline,
-                      color: Colors.white,
-                      size: 20,
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
           ],
-        );
+        ),
+      ],
+    );
   }
 
   Container get AddtoCart_price {
@@ -247,9 +252,15 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             width: 160,
             child: ElevatedButton(
               onPressed: () {
-                if(_selectedSize!=null && _selectedColor!=null){
+                if (_selectedSize != null && _selectedColor != null) {
+                  if (Get.find<Auth_Controller>().isTokenNotNull) {
 
-                }else{
+
+
+                  } else {
+                    Get.to(() => const VerifyEmailScreen());
+                  }
+                } else {
                   Get.showSnackbar(const GetSnackBar(
                     title: 'Add to Cart Failed',
                     message: 'please select color and size',
@@ -268,7 +279,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     );
   }
 
-  Color getColorFromStrin(String colorCode){
+  Color getColorFromStrin(String colorCode) {
     String code = colorCode.replaceAll('#', '');
     String hexCode = 'FF$code';
     return Color(int.parse('0x$hexCode'));
