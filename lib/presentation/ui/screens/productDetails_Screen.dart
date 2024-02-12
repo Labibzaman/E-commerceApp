@@ -252,11 +252,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           SizedBox(
             width: 160,
             child:
-                GetBuilder<AddToCartController>(
-                    builder: (addToCartController) {
-                      if(addToCartController.inProgress){
-                        return const Center(child: CircularProgressIndicator());
-                      }
+                GetBuilder<AddToCartController>(builder: (addToCartController) {
+              if (addToCartController.inProgress) {
+                return const Center(child: CircularProgressIndicator());
+              }
               return ElevatedButton(
                 onPressed: () async {
                   if (_selectedSize != null && _selectedColor != null) {

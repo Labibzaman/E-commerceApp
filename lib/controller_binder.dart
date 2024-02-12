@@ -6,6 +6,7 @@ import 'package:crafty_bay/presentation/state_holders/Popular_product_controller
 import 'package:crafty_bay/presentation/state_holders/ProductDetails_Controller.dart';
 import 'package:crafty_bay/presentation/state_holders/add_to_Cart_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/auth_controller.dart';
+import 'package:crafty_bay/presentation/state_holders/cart_list_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/main_nav_bottom_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/product_list_slider_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/read_profile_controller.dart';
@@ -32,5 +33,6 @@ class ControlBinder extends Bindings {
     Get.put(CommonProduct_controller());
     Get.put(ProductDetailsController());
     Get.put(AddToCartController());
+    Get.put(CartListController());
   }
 }

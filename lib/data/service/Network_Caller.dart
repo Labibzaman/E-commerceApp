@@ -9,7 +9,7 @@ class NetworkCaller {
     log(url);
     log(token.toString());
     final Response response = await get(Uri.parse(url), headers: {
-      'token': token.toString(),
+      'token':( token ?? Auth_Controller.token).toString(),
       'content-type': 'application/json',
     });
     log(response.statusCode.toString());

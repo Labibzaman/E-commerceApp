@@ -2,6 +2,8 @@ import 'package:crafty_bay/presentation/state_holders/main_nav_bottom_controller
 import 'package:crafty_bay/presentation/ui/utility/appcolors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../state_holders/add_to_Cart_controller.dart';
+import '../../state_holders/cart_list_controller.dart';
 import '../widgets/cart/cart_ProductList_item.dart';
 
 class CartScreen extends StatefulWidget {
@@ -13,6 +15,14 @@ class CartScreen extends StatefulWidget {
 
 class _CartScreenState extends State<CartScreen> {
   ValueNotifier<int> numberOfItems = ValueNotifier(1);
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Get.find<CartListController>().getCartList();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +54,9 @@ class _CartScreenState extends State<CartScreen> {
                   return const CartProduct_Item();
                 },
                 separatorBuilder: (BuildContext context, int index) {
-                  return const SizedBox(height: 8,);
+                  return const SizedBox(
+                    height: 8,
+                  );
                 },
               ),
             ),
