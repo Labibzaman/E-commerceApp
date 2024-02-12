@@ -45,23 +45,30 @@ class _CartScreenState extends State<CartScreen> {
             style: TextStyle(fontSize: 18),
           ),
         ),
-        body: Column(
-          children: [
-            Expanded(
-              child: ListView.separated(
-                itemCount: 3,
-                itemBuilder: (BuildContext context, int index) {
-                  return const CartProduct_Item();
-                },
-                separatorBuilder: (BuildContext context, int index) {
-                  return const SizedBox(
-                    height: 8,
-                  );
-                },
-              ),
-            ),
-            checkOutAndPrice,
-          ],
+        body: GetBuilder<CartListController>(
+          builder: (cartListController) {
+            if(cartListController.inProgress==true){
+              return const Center(child: CircularProgressIndicator());
+            }
+            return Column(
+              children: [
+                Expanded(
+                  child: ListView.separated(
+                    itemCount: cartListController.cartListModel.cartItemList?.length??0,
+                    itemBuilder: (BuildContext context, int index) {
+                      return const CartProduct_Item();
+                    },
+                    separatorBuilder: (BuildContext context, int index) {
+                      return const SizedBox(
+                        height: 8,
+                      );
+                    },
+                  ),
+                ),
+                checkOutAndPrice,
+              ],
+            );
+          }
         ),
       ),
     );
