@@ -9,7 +9,7 @@ class NetworkCaller {
     log(url);
     log(token.toString());
     final Response response = await get(Uri.parse(url), headers: {
-      'token':( token ?? Auth_Controller.token).toString(),
+      'token': (token ?? Auth_Controller.token).toString(),
       'content-type': 'application/json',
     });
     log(response.statusCode.toString());
@@ -30,7 +30,14 @@ class NetworkCaller {
           errorMessage: decodedResponse['data'] ?? 'Something went wrong',
         );
       }
-    } else {
+    } else if (response.statusCode == 401) {
+      await Auth_Controller.clearDATA();
+      Auth_Controller.goToLogin();
+      return ResponseData(
+          isSuccess: false,
+          responseData: '',
+          statusCode: response.statusCode);
+    }else {
       return ResponseData(
           isSuccess: false, responseData: '', statusCode: response.statusCode);
     }
@@ -41,7 +48,8 @@ class NetworkCaller {
     log(url);
     log(body.toString());
 
-    final Response response = await post(Uri.parse(url), body: jsonEncode(body), headers: {
+    final Response response =
+        await post(Uri.parse(url), body: jsonEncode(body), headers: {
       'token': Auth_Controller.token.toString(),
       'content-type': 'application/json',
     });
@@ -62,6 +70,13 @@ class NetworkCaller {
             responseData: decodedResponse,
             statusCode: response.statusCode);
       }
+    } else if (response.statusCode == 401) {
+      await Auth_Controller.clearDATA();
+      Auth_Controller.goToLogin();
+      return ResponseData(
+          isSuccess: false,
+          responseData: '',
+          statusCode: response.statusCode);
     } else {
       return ResponseData(
           isSuccess: false, responseData: '', statusCode: response.statusCode);

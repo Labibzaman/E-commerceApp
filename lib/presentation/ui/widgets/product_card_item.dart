@@ -59,7 +59,7 @@ class ProductCard_item extends StatelessWidget {
                         style: const TextStyle(color: AppColors.primaryColor),
                       ),
                       const SizedBox(
-                        width: 8,
+                        width: 7,
                       ),
                       Wrap(
                         crossAxisAlignment: WrapCrossAlignment.center,

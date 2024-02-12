@@ -1,3 +1,4 @@
+import 'package:crafty_bay/presentation/state_holders/auth_controller.dart';
 import 'package:get/get.dart';
 
 class Main_bottom_controller extends GetxController {
@@ -8,14 +9,20 @@ class Main_bottom_controller extends GetxController {
   void changeIndex(int index) {
     if (_selectedIndex == index) {
       return;
-    } else {
-      _selectedIndex = index;
     }
+
+    if (index == 2 || index == 3) {
+      if (Get.find<Auth_Controller>().isTokenNotNull == false) {
+        Auth_Controller.goToLogin();
+        return;
+      }
+    }
+
+    _selectedIndex = index;
     update();
   }
 
-  void backToHome(){
+  void backToHome() {
     changeIndex(0);
   }
-
 }
