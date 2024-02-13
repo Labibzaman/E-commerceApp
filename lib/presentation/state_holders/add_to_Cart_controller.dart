@@ -10,14 +10,15 @@ class AddToCartController extends GetxController {
 
   bool get inProgress => _inProgress;
 
-  Future<bool> addToCart(int productID, String color, String size) async {
+  Future<bool> addToCart(int productID, String color, String size,int quantity) async {
     bool _isSuccess = false;
     _inProgress = true;
     update();
     Map<String, dynamic> inputParams = {
       "product_id": productID,
       "color": color,
-      "size": size
+      "size": size,
+      "qty":quantity
     };
 
     final response =

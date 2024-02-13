@@ -264,7 +264,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           colorToString(_selectedColor!);
 
                       final response = await addToCartController.addToCart(
-                          widget.productId, stringColor, _selectedSize!);
+                          widget.productId, stringColor, _selectedSize!,numberOfItems.value);
                       if (response) {
                         Get.showSnackbar(const GetSnackBar(
                           title: 'Success',

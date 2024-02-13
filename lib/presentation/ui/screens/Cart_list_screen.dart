@@ -1,8 +1,9 @@
 import 'package:crafty_bay/presentation/state_holders/main_nav_bottom_controller.dart';
+import 'package:crafty_bay/presentation/ui/screens/checkout_screen.dart';
 import 'package:crafty_bay/presentation/ui/utility/appcolors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../state_holders/add_to_Cart_controller.dart';
+
 import '../../state_holders/cart_list_controller.dart';
 import '../widgets/cart/cart_ProductList_item.dart';
 
@@ -56,7 +57,7 @@ class _CartListScreenState extends State<CartListScreen> {
                   child: ListView.separated(
                     itemCount: cartListController.cartListModel.cartItemList?.length??0,
                     itemBuilder: (BuildContext context, int index) {
-                      return  CartProduct_Item(cartItem: cartListController.cartListModel.cartItemList![index],);
+                      return  CartProductItem(cartItem: cartListController.cartListModel.cartItemList![index],);
                     },
                     separatorBuilder: (_, __) {
                       return const SizedBox(
@@ -104,7 +105,9 @@ class _CartListScreenState extends State<CartListScreen> {
           SizedBox(
             width: 160,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Get.to(()=>const CheckoutScreen());
+              },
               child: const Text(
                 'Check Out',
                 style: TextStyle(color: Colors.white),

@@ -1,27 +1,29 @@
 
-import 'package:crafty_bay/data/models/cart_item_model.dart';
-import 'package:crafty_bay/presentation/ui/utility/appcolors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:item_count_number_button/item_count_number_button.dart';
 
+import '../../../../data/models/cart_item_model.dart';
 import '../../../state_holders/cart_list_controller.dart';
-import '../../utility/assets_path.dart';
+import '../../utility/appcolors.dart';
 
-class CartProduct_Item extends StatefulWidget {
-  const CartProduct_Item({
-    super.key, required this.cartItem,
-  });
+class CartProductItem extends StatefulWidget {
+  const CartProductItem({super.key, required this.cartItem});
 
-final CartItem cartItem;
+  final CartItem cartItem;
+
   @override
-  State<CartProduct_Item> createState() => _CartProduct_ItemState();
+  State<CartProductItem> createState() => _CartProductItemState();
 }
 
-class _CartProduct_ItemState extends State<CartProduct_Item> {
+class _CartProductItemState extends State<CartProductItem> {
+  late ValueNotifier<int> noOfItems = ValueNotifier(widget.cartItem.quantity);
 
-  ValueNotifier<int> numberOfItems = ValueNotifier(1);
-
+  @override
+  void initState() {
+    print(widget.cartItem.quantity);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,11 +32,11 @@ class _CartProduct_ItemState extends State<CartProduct_Item> {
       child: Row(
         children: [
           Image.network(
-            widget.cartItem.product?.image??'',
+            widget.cartItem.product?.image ?? '',
             width: 100,
           ),
           const SizedBox(
-            width: 10,
+            width: 8,
           ),
           Expanded(
             child: Column(
@@ -46,60 +48,61 @@ class _CartProduct_ItemState extends State<CartProduct_Item> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            widget.cartItem.product?.title??'',
+                            widget.cartItem.product?.title ?? '',
                             maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                                color: Colors.grey.shade700,
-                                fontWeight: FontWeight.bold),
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black54,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
                           Row(
                             children: [
-                              Text(
-                                'Color: ${widget.cartItem.color??''}',
-                                style: TextStyle(color: Colors.grey.shade600),
-                              ),
+                              Text('Color: ${widget.cartItem.color ?? ''}'),
                               const SizedBox(
-                                width: 4,
+                                width: 8,
                               ),
-                              Text(
-                                'Size: ${widget.cartItem.size??''}',
-                                style: TextStyle(color: Colors.grey.shade600),
-                              ),
+                              Text('Size:  ${widget.cartItem.size ?? ''}'),
                             ],
-                          ),
+                          )
                         ],
                       ),
                     ),
-                    const Icon(
-                      Icons.delete,
-                      color: Colors.grey,
-                    ),
+                    IconButton(
+                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.delete_forever_outlined,
+                        color: Colors.grey,
+                      ),
+                    )
                   ],
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                     Text(
-                      '\$${widget.cartItem.product?.price??0}',
+                    Text(
+                      '৳${widget.cartItem.product?.price ?? 0}',
                       style: const TextStyle(
-                        color: AppColors.primaryColor,
                         fontSize: 16,
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.primaryColor,
                       ),
                     ),
                     ValueListenableBuilder(
-                        valueListenable: numberOfItems,
+                        valueListenable: noOfItems,
                         builder: (context, value, _) {
                           return ItemCount(
                             initialValue: value,
                             minValue: 1,
-                            maxValue: 10,
+                            maxValue: 20,
                             decimalPlaces: 0,
+                            step: 1,
                             color: AppColors.primaryColor,
                             onChanged: (v) {
-                              numberOfItems.value = v.toInt();
-                              Get.find<CartListController>().UpdateQuantity(widget.cartItem.id!, numberOfItems.value);
+                              noOfItems.value = v.toInt();
+                              Get.find<CartListController>().updateQuantity(
+                                  widget.cartItem.id!, noOfItems.value);
                             },
                           );
                         }),
@@ -107,7 +110,7 @@ class _CartProduct_ItemState extends State<CartProduct_Item> {
                 )
               ],
             ),
-          ),
+          )
         ],
       ),
     );
