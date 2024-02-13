@@ -1,4 +1,5 @@
-import 'package:get/get.dart';
+
+import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
 import '../../data/models/payment_method_list_model.dart';
 import '../../data/service/Network_Caller.dart';
