@@ -6,14 +6,14 @@ import '../../state_holders/add_to_Cart_controller.dart';
 import '../../state_holders/cart_list_controller.dart';
 import '../widgets/cart/cart_ProductList_item.dart';
 
-class CartScreen extends StatefulWidget {
-  const CartScreen({super.key});
+class CartListScreen extends StatefulWidget {
+  const CartListScreen({super.key});
 
   @override
-  State<CartScreen> createState() => _CartScreenState();
+  State<CartListScreen> createState() => _CartListScreenState();
 }
 
-class _CartScreenState extends State<CartScreen> {
+class _CartListScreenState extends State<CartListScreen> {
   ValueNotifier<int> numberOfItems = ValueNotifier(1);
 
   @override
@@ -56,16 +56,16 @@ class _CartScreenState extends State<CartScreen> {
                   child: ListView.separated(
                     itemCount: cartListController.cartListModel.cartItemList?.length??0,
                     itemBuilder: (BuildContext context, int index) {
-                      return const CartProduct_Item();
+                      return  CartProduct_Item(cartItem: cartListController.cartListModel.cartItemList![index],);
                     },
-                    separatorBuilder: (BuildContext context, int index) {
+                    separatorBuilder: (_, __) {
                       return const SizedBox(
                         height: 8,
                       );
                     },
                   ),
                 ),
-                checkOutAndPrice,
+                checkOutAndPrice(cartListController.totalPrice),
               ],
             );
           }
@@ -74,7 +74,7 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 
-  Container get checkOutAndPrice {
+  Container  checkOutAndPrice(RxDouble totalPrice) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -84,22 +84,23 @@ class _CartScreenState extends State<CartScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Column(
+           Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 'Total Price',
                 style: TextStyle(fontSize: 14, color: Colors.black54),
               ),
-              Text(
-                '\$12563755',
-                style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.primaryColor),
-              ),
+              Obx(() =>  Text(
+                '৳$totalPrice',
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.primaryColor,
+                ),
+              )),
             ],
-          ),
+           ),
           SizedBox(
             width: 160,
             child: ElevatedButton(

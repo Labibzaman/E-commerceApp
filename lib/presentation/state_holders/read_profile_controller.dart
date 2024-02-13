@@ -19,21 +19,17 @@ class Read_Profile_controller extends GetxController {
 
   bool get isProfileCompleted => _isProfileCompleted;
 
-  Future<bool> ReadProfileDATA(String token) async {
+  Future<bool> readProfileData(String token) async {
     _inProgress = true;
     update();
-
-    final response =
-        await NetworkCaller().getRequest(Urls.ReadProfileURL, token: token);
-
+    final response = await NetworkCaller().getRequest(Urls.ReadProfileURL, token: token);
     _inProgress = false;
-
     if (response.isSuccess) {
       final profileData = response.responseData['data'];
-      if (profileData.isEmpty) {
+      if (profileData ==  null) {
         _isProfileCompleted = false;
       } else {
-        _profile = Profile.fromJson(profileData[0]);
+        _profile = Profile.fromJson(profileData);
         _isProfileCompleted = true;
       }
       update();

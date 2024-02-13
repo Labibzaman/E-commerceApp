@@ -3,7 +3,7 @@ import 'package:crafty_bay/presentation/state_holders/New_Product_controller.dar
 import 'package:crafty_bay/presentation/state_holders/Popular_product_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/main_nav_bottom_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/special_product_controller.dart';
-import 'package:crafty_bay/presentation/ui/screens/Cart.dart';
+import 'package:crafty_bay/presentation/ui/screens/Cart_list_screen.dart';
 import 'package:crafty_bay/presentation/ui/screens/HomeScreen.dart';
 import 'package:crafty_bay/presentation/ui/screens/category_screen.dart';
 import 'package:crafty_bay/presentation/ui/screens/wishList.dart';
@@ -24,7 +24,7 @@ class _MainBottoma_navScreenState extends State<MainBottoma_navScreen> {
   final List<Widget> _screens=[
     const HomeScreen(),
     const Category_Screen(),
-    const CartScreen(),
+    const CartListScreen(),
     const WishList_screen(),
   ];
 

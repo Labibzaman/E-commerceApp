@@ -111,7 +111,7 @@ class _verifyOTPscreenState extends State<verifyOTPscreen> {
                     return null;
                   },
                   keyboardType: TextInputType.number,
-                  length: 4,
+                  length: 6,
                   obscureText: false,
                   animationType: AnimationType.fade,
                   pinTheme: PinTheme(
@@ -151,7 +151,7 @@ class _verifyOTPscreenState extends State<verifyOTPscreen> {
                       child: ElevatedButton(
                         onPressed: () async {
                           if (_formkey.currentState!.validate()) {
-                            final bool response = await controller.VerifyOTP(
+                            final bool response = await controller.verifyOTP(
                                 widget.email, _Verifyotpcontroller.text);
                             if (response) {
                               if (controller.shouldNavigateToCompleteProfile) {

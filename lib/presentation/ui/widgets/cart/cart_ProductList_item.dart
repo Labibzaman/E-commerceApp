@@ -1,16 +1,19 @@
 
+import 'package:crafty_bay/data/models/cart_item_model.dart';
 import 'package:crafty_bay/presentation/ui/utility/appcolors.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:item_count_number_button/item_count_number_button.dart';
 
+import '../../../state_holders/cart_list_controller.dart';
 import '../../utility/assets_path.dart';
 
 class CartProduct_Item extends StatefulWidget {
   const CartProduct_Item({
-    super.key,
+    super.key, required this.cartItem,
   });
 
-
+final CartItem cartItem;
   @override
   State<CartProduct_Item> createState() => _CartProduct_ItemState();
 }
@@ -26,17 +29,15 @@ class _CartProduct_ItemState extends State<CartProduct_Item> {
       elevation: 3,
       child: Row(
         children: [
-          Image.asset(
-            AssetsPath.shoePng,
+          Image.network(
+            widget.cartItem.product?.image??'',
             width: 100,
-            fit: BoxFit.cover,
           ),
           const SizedBox(
             width: 10,
           ),
           Expanded(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   children: [
@@ -45,7 +46,7 @@ class _CartProduct_ItemState extends State<CartProduct_Item> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'New Year Special Shoe',
+                            widget.cartItem.product?.title??'',
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
@@ -55,14 +56,14 @@ class _CartProduct_ItemState extends State<CartProduct_Item> {
                           Row(
                             children: [
                               Text(
-                                'Color:RED,',
+                                'Color: ${widget.cartItem.color??''}',
                                 style: TextStyle(color: Colors.grey.shade600),
                               ),
                               const SizedBox(
                                 width: 4,
                               ),
                               Text(
-                                'Size: XL',
+                                'Size: ${widget.cartItem.size??''}',
                                 style: TextStyle(color: Colors.grey.shade600),
                               ),
                             ],
@@ -79,9 +80,9 @@ class _CartProduct_ItemState extends State<CartProduct_Item> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
-                      '\$100',
-                      style: TextStyle(
+                     Text(
+                      '\$${widget.cartItem.product?.price??0}',
+                      style: const TextStyle(
                         color: AppColors.primaryColor,
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
@@ -98,6 +99,7 @@ class _CartProduct_ItemState extends State<CartProduct_Item> {
                             color: AppColors.primaryColor,
                             onChanged: (v) {
                               numberOfItems.value = v.toInt();
+                              Get.find<CartListController>().UpdateQuantity(widget.cartItem.id!, numberOfItems.value);
                             },
                           );
                         }),

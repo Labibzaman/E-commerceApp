@@ -19,33 +19,29 @@ class Verify_OTP_controller extends GetxController {
   String _token = '';
 
   String get token => _token;
-  Future<bool> VerifyOTP(String email, String OTP) async {
+
+
+
+  Future<bool> verifyOTP(String email, String otp) async {
     _inProgress = true;
     update();
-    final response =
-        await NetworkCaller().getRequest(Urls.VerifyOTPemail(email, OTP));
+    final response = await NetworkCaller().getRequest(Urls.VerifyOTPemail(email, otp));
     _inProgress = false;
-
     if (response.isSuccess) {
-       _token = response.responseData['data'];
+      _token = response.responseData['data'];
       await Future.delayed(const Duration(seconds: 3));
-
       final result =
-          await Get.find<Read_Profile_controller>().ReadProfileDATA(token);
-
+      await Get.find<Read_Profile_controller>().readProfileData(token);
       if (result) {
-        _goTOCompleteProfile =
-            Get.find<Read_Profile_controller>().isProfileCompleted == false;
+        _goTOCompleteProfile = Get.find<Read_Profile_controller>().isProfileCompleted == false;
         if (_goTOCompleteProfile == false) {
-          Get.find<Auth_Controller>().saveUserInformation(
-              token, Get.find<Read_Profile_controller>().profile);
+          await Get.find<Auth_Controller>().saveUserInformation(token, Get.find<Read_Profile_controller>().profile);
         }
       } else {
         _errorMessage = Get.find<Read_Profile_controller>().errorMessage!;
         update();
         return false;
       }
-
       update();
       return true;
     } else {
