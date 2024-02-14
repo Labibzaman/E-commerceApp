@@ -40,7 +40,7 @@ class _ProductDetail_CarouselState extends State<ProductDetail_Carousel> {
                   width: MediaQuery.of(context).size.width,
                   margin: const EdgeInsets.symmetric(horizontal: 3.0),
                   decoration: BoxDecoration(
-                      color:AppColors.primaryColor,
+                      color:Colors.white,
                       borderRadius: BorderRadius.circular(12),
                       image: DecorationImage(image: NetworkImage(url))),
                 );

@@ -88,7 +88,7 @@ class _Home_imageCarouselState extends State<Home_imageCarousel> {
                             width: 188,
                             child: Image.network(
                               Banner.image ?? '',
-                              fit: BoxFit.cover,
+                              fit: BoxFit.fill,
                             ),
                           ),
                         ],
