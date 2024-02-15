@@ -28,7 +28,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
         child: GetBuilder<ReviewController>(
           builder: (reviewController) {
             return Visibility(
-              replacement: CircularProgressIndicator(),
+              replacement: const Center(child: CircularProgressIndicator()),
               visible: reviewController.inProgress==false,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
