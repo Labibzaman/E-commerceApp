@@ -1,3 +1,5 @@
+import 'package:crafty_bay/presentation/state_holders/auth_controller.dart';
+
 class Urls{
 
   static const String baseUrl = 'http://ecom-api.teamrabbil.com/api';

@@ -17,10 +17,13 @@ class Complete_profileScreen extends StatefulWidget {
 
 class _Complete_profileScreenState extends State<Complete_profileScreen> {
   final TextEditingController firsNAmeController = TextEditingController();
-  final TextEditingController lastNAmeController = TextEditingController();
+  final TextEditingController CustomerAddController = TextEditingController();
   final TextEditingController mobileNAmeController = TextEditingController();
   final TextEditingController cityController = TextEditingController();
   final TextEditingController shippingController = TextEditingController();
+  final TextEditingController postalCodeController = TextEditingController();
+  final TextEditingController Countrycodecontroller = TextEditingController();
+  final TextEditingController stateController = TextEditingController();
   GlobalKey<FormState> _formkey = GlobalKey<FormState>();
 
   @override
@@ -52,33 +55,33 @@ class _Complete_profileScreenState extends State<Complete_profileScreen> {
                   controller: firsNAmeController,
                   validator: (value) {
                     if (value?.isEmpty ?? true) {
-                      return 'Enter Your first name';
+                      return 'Enter your name';
                     } else {
                       return null;
                     }
                   },
                   textInputAction: TextInputAction.next,
-                  decoration: const InputDecoration(hintText: 'First Name'),
+                  decoration: const InputDecoration(hintText: 'Your name'),
                 ),
                 const SizedBox(height: 10),
                 TextFormField(
-                  controller: lastNAmeController,
+                  controller: CustomerAddController,
                   validator: (value) {
                     if (value?.isEmpty ?? true) {
-                      return 'Enter Your first name';
+                      return 'Enter Customer Address';
                     } else {
                       return null;
                     }
                   },
                   textInputAction: TextInputAction.next,
-                  decoration: const InputDecoration(hintText: 'Last Name'),
+                  decoration: const InputDecoration(hintText: 'Your Address'),
                 ),
                 const SizedBox(height: 10),
                 TextFormField(
                   controller: mobileNAmeController,
                   validator: (value) {
                     if (value?.isEmpty ?? true) {
-                      return 'Enter Your first name';
+                      return 'Enter Your Mobile';
                     } else {
                       return null;
                     }
@@ -92,7 +95,7 @@ class _Complete_profileScreenState extends State<Complete_profileScreen> {
                   controller: cityController,
                   validator: (value) {
                     if (value?.isEmpty ?? true) {
-                      return 'Enter Your first name';
+                      return 'Customer ';
                     } else {
                       return null;
                     }
@@ -102,10 +105,49 @@ class _Complete_profileScreenState extends State<Complete_profileScreen> {
                 ),
                 const SizedBox(height: 10),
                 TextFormField(
+                  controller: Countrycodecontroller,
+                  validator: (value) {
+                    if (value?.isEmpty ?? true) {
+                      return 'Enter Postal code ';
+                    } else {
+                      return null;
+                    }
+                  },
+                  textInputAction: TextInputAction.next,
+                  decoration: const InputDecoration(hintText: ' Country'),
+                ),
+                const SizedBox(height: 10),
+                TextFormField(
+                  controller: postalCodeController,
+                  validator: (value) {
+                    if (value?.isEmpty ?? true) {
+                      return 'Enter Postal code ';
+                    } else {
+                      return null;
+                    }
+                  },
+                  textInputAction: TextInputAction.next,
+                  decoration: const InputDecoration(hintText: 'Postal code'),
+                ),
+                const SizedBox(height: 10),
+                TextFormField(
+                  controller: stateController,
+                  validator: (value) {
+                    if (value?.isEmpty ?? true) {
+                      return 'Enter State';
+                    } else {
+                      return null;
+                    }
+                  },
+                  textInputAction: TextInputAction.next,
+                  decoration: const InputDecoration(hintText: 'State'),
+                ),
+                const SizedBox(height: 10),
+                TextFormField(
                   controller: shippingController,
                   validator: (value) {
                     if (value?.isEmpty ?? true) {
-                      return 'Enter Your first name';
+                      return 'Enter Shipping Address';
                     } else {
                       return null;
                     }
@@ -130,10 +172,14 @@ class _Complete_profileScreenState extends State<Complete_profileScreen> {
                           if (_formkey.currentState!.validate()) {
                             final createdParams = CreateProfile_params(
                               firstName: firsNAmeController.text.trim(),
-                              lastName: lastNAmeController.text.trim(),
+                              CustomerAddress:
+                                  CustomerAddController.text.trim(),
                               mobile: mobileNAmeController.text.trim(),
                               city: cityController.text.trim(),
                               Shipping: shippingController.text.trim(),
+                              state: stateController.text.trim(),
+                              postal: postalCodeController.text.trim(),
+                              country: Countrycodecontroller.text.trim(),
                             );
                             final bool result =
                                 await controller.CreateProfileDATA(
@@ -169,10 +215,11 @@ class _Complete_profileScreenState extends State<Complete_profileScreen> {
   @override
   void dispose() {
     firsNAmeController.dispose();
-    lastNAmeController.dispose();
+    CustomerAddController.dispose();
     cityController.dispose();
     mobileNAmeController.dispose();
     shippingController.dispose();
+    Countrycodecontroller.dispose();
     super.dispose();
   }
 }

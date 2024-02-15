@@ -1,7 +1,10 @@
 import 'package:crafty_bay/data/models/product_details_data.dart';
+import 'package:crafty_bay/data/models/profile.dart';
 import 'package:crafty_bay/presentation/state_holders/ProductDetails_Controller.dart';
 import 'package:crafty_bay/presentation/state_holders/add_to_Cart_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/auth_controller.dart';
+import 'package:crafty_bay/presentation/ui/screens/REview%20screen.dart';
+import 'package:crafty_bay/presentation/ui/screens/auth/complete_profile_screen.dart';
 import 'package:crafty_bay/presentation/ui/screens/auth/verify_email_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -197,9 +200,19 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             const SizedBox(
               width: 10,
             ),
-            const Text(
-              'Reviews',
-              style: TextStyle(color: AppColors.primaryColor),
+            GestureDetector(
+              onTap: (){
+                if(Auth_Controller().isTokenNotNull){
+                  Get.to(()=> ReviewScreen());
+                }else{
+                  Get.to(()=>const VerifyEmailScreen());
+                }
+
+              },
+              child: const Text(
+                'Reviews',
+                style: TextStyle(color: AppColors.primaryColor),
+              ),
             ),
             const SizedBox(
               width: 7,
