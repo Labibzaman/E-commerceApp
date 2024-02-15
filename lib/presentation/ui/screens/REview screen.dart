@@ -1,6 +1,9 @@
+import 'package:crafty_bay/presentation/state_holders/reviewController.dart';
+import 'package:crafty_bay/presentation/ui/screens/add_review_Screen.dart';
 import 'package:crafty_bay/presentation/ui/utility/appcolors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ReviewScreen extends StatefulWidget {
   const ReviewScreen({super.key});
@@ -15,30 +18,40 @@ class _ReviewScreenState extends State<ReviewScreen> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(onPressed: (){
 
-        // showModalBottomSheet(context: context, builder:);
+       Get.to( ()=> AddNewReviewscreen());
       },child: const Icon(CupertinoIcons.plus,color: AppColors.primaryColor,),),
       appBar: AppBar(
-        title: Text('Review Screen'),
+        title: const Text('Review Screen'),
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            ListView.separated(
-              shrinkWrap: true,
-              itemCount: 10,
-              itemBuilder: (BuildContext context, int index) {
-                return ReviewCard('User 1', 'Great product!');
-              },
-              separatorBuilder: (BuildContext context, int index) {
-                return Divider(
-                  height: 0,
-                );
-              },
+        padding: const EdgeInsets.all(16.0),
+        child: GetBuilder<ReviewController>(
+          builder: (reviewController) {
+            return Visibility(
+              replacement: CircularProgressIndicator(),
+              visible: reviewController.inProgress==false,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  ListView.separated(
+                    shrinkWrap: true,
+                    itemCount: 10,
+                    itemBuilder: (BuildContext context, int index) {
+                      return ReviewCard(
+                          'User 1',
+                          'Great product!');
+                    },
+                    separatorBuilder: (BuildContext context, int index) {
+                      return const Divider(
+                        height: 0,
+                      );
+                    },
 
-            ),
-          ],
+                  ),
+                ],
+              ),
+            );
+          }
         ),
       ),
     );
