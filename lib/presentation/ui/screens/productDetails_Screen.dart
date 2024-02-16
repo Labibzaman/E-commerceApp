@@ -202,13 +202,14 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               width: 10,
             ),
             GestureDetector(
-              onTap: (){
-                if(Auth_Controller().isTokenNotNull){
-                  Get.to(()=> ReviewScreen());
-                }else{
-                  Get.to(()=>const VerifyEmailScreen());
+              onTap: () {
+                if (Auth_Controller().isTokenNotNull) {
+                  Get.to(() => ReviewScreen(
+                        productID: widget.productId,
+                      ));
+                } else {
+                  Get.to(() => const VerifyEmailScreen());
                 }
-
               },
               child: const Text(
                 'Reviews',
@@ -222,10 +223,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12)),
               color: AppColors.primaryColor,
-              child:  Padding(
+              child: Padding(
                 padding: const EdgeInsets.all(4.0),
                 child: GestureDetector(
-                  onTap: (){
+                  onTap: () {
                     Get.find<AddToWishController>().addToWish(widget.productId);
                   },
                   child: const Icon(
@@ -279,11 +280,13 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 onPressed: () async {
                   if (_selectedSize != null && _selectedColor != null) {
                     if (Get.find<Auth_Controller>().isTokenNotNull) {
-                      final stringColor =
-                          colorToString(_selectedColor!);
+                      final stringColor = colorToString(_selectedColor!);
 
                       final response = await addToCartController.addToCart(
-                          widget.productId, stringColor, _selectedSize!,numberOfItems.value);
+                          widget.productId,
+                          stringColor,
+                          _selectedSize!,
+                          numberOfItems.value);
                       if (response) {
                         Get.showSnackbar(const GetSnackBar(
                           title: 'Success',
@@ -321,41 +324,38 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   }
 
   Color getColorFromStrin(String color) {
-   color=color.toLowerCase();
-   if(color=='red'){
-     return Colors.red;
-   }else if (color=='white'){
-     return Colors.white;
-   }else if(color=='green'){
-     return Colors.green;
-   }
-return Colors.grey;
-
+    color = color.toLowerCase();
+    if (color == 'red') {
+      return Colors.red;
+    } else if (color == 'white') {
+      return Colors.white;
+    } else if (color == 'green') {
+      return Colors.green;
+    }
+    return Colors.grey;
   }
 
   String colorToString(Color color) {
-    if(color==Colors.red){
+    if (color == Colors.red) {
       return 'Red';
-    }else if (color==Colors.white){
+    } else if (color == Colors.white) {
       return 'white';
-    }else if(color==Colors.red){
+    } else if (color == Colors.red) {
       return 'Green';
     }
     return 'Grey';
   }
 
-
-
-  // Color getColorFromStrin(String colorCode) {
-  //   String code = colorCode.replaceAll('#', '');
-  //   String hexCode = 'FF$code';
-  //   return Color(int.parse('0x$hexCode'));
-  // }
-  //
-  // String colorCodetoHashColorCode(String colorCode) {
-  //   return colorCode
-  //       .replaceAll('0xff', '#')
-  //       .replaceAll('Color(', '')
-  //       .replaceAll(')', '');
-  // }
+// Color getColorFromStrin(String colorCode) {
+//   String code = colorCode.replaceAll('#', '');
+//   String hexCode = 'FF$code';
+//   return Color(int.parse('0x$hexCode'));
+// }
+//
+// String colorCodetoHashColorCode(String colorCode) {
+//   return colorCode
+//       .replaceAll('0xff', '#')
+//       .replaceAll('Color(', '')
+//       .replaceAll(')', '');
+// }
 }

@@ -1,3 +1,4 @@
+import 'package:crafty_bay/data/models/reviewList_data_model.dart';
 import 'package:crafty_bay/presentation/state_holders/reviewController.dart';
 import 'package:crafty_bay/presentation/ui/screens/add_review_Screen.dart';
 import 'package:crafty_bay/presentation/ui/utility/appcolors.dart';
@@ -5,14 +6,27 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../data/models/reviewerProfile.dart';
+
 class ReviewScreen extends StatefulWidget {
-  const ReviewScreen({super.key});
+  const ReviewScreen({super.key, required this.productID});
+final int productID;
 
   @override
   State<ReviewScreen> createState() => _ReviewScreenState();
 }
 
 class _ReviewScreenState extends State<ReviewScreen> {
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      Get.find<ReviewController>().getReview(widget.productID);
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,11 +49,10 @@ class _ReviewScreenState extends State<ReviewScreen> {
                 children: [
                   ListView.separated(
                     shrinkWrap: true,
-                    itemCount: 10,
+                    itemCount: reviewController.reviews.data?.length??0,
                     itemBuilder: (BuildContext context, int index) {
-                      return ReviewCard(
-                          'User 1',
-                          'Great product!');
+                      return ReviewCard(reviewProfile: reviewController.reviews.data![index],
+                          );
                     },
                     separatorBuilder: (BuildContext context, int index) {
                       return const Divider(
@@ -58,12 +71,17 @@ class _ReviewScreenState extends State<ReviewScreen> {
   }
 }
 
-class ReviewCard extends StatelessWidget {
-  final String username;
-  final String review;
+class ReviewCard extends StatefulWidget {
 
-  ReviewCard(this.username, this.review, {super.key});
+  final ReviewListDataModel reviewProfile;
 
+  ReviewCard({super.key, required this.reviewProfile, });
+
+  @override
+  State<ReviewCard> createState() => _ReviewCardState();
+}
+
+class _ReviewCardState extends State<ReviewCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -74,23 +92,30 @@ class ReviewCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
             Row(
               children: [
-                const CircleAvatar(),
-                const SizedBox(width: 10),
+                CircleAvatar(
+                  radius: 20,
+                  backgroundColor: Colors.grey.shade200,
+                  child: const Icon(Icons.person_outline),
+                ),
+                const SizedBox(
+                  width: 8,
+                ),
                 Text(
-                  username,
-                  style: const TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  '${widget.reviewProfile.profile!.cusName}',
+                  maxLines: 1,
+                  style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.grey.shade700,
+                      fontWeight: FontWeight.w600,
+                      overflow: TextOverflow.ellipsis),
                 ),
               ],
             ),
             const SizedBox(height: 8.0),
             Text(
-              review,
+             ' ${widget.reviewProfile.description}',
               style: const TextStyle(fontSize: 14.0),
             ),
           ],
