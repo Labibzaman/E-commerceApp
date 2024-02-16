@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
 import '../../state_holders/main_nav_bottom_controller.dart';
+import '../widgets/home/wishList_ProductCard_item.dart';
 
 class WishList_screen extends StatefulWidget {
   const WishList_screen({super.key});
@@ -67,7 +68,7 @@ WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
                   itemCount: wishListcontroller.wishListModel.data?.length??0,
                   itemBuilder: (BuildContext context, int index) {
                     return  FittedBox(
-                        child: ProductCard_item(
+                        child: WishListProductCard_item(
                       product: wishListcontroller.wishListModel.data![index].product!,
                     ));
                   },
