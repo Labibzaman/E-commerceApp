@@ -2,6 +2,7 @@ import 'package:crafty_bay/data/models/product_details_data.dart';
 import 'package:crafty_bay/data/models/profile.dart';
 import 'package:crafty_bay/presentation/state_holders/ProductDetails_Controller.dart';
 import 'package:crafty_bay/presentation/state_holders/add_to_Cart_controller.dart';
+import 'package:crafty_bay/presentation/state_holders/add_to_wishList_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/auth_controller.dart';
 import 'package:crafty_bay/presentation/ui/screens/REview%20screen.dart';
 import 'package:crafty_bay/presentation/ui/screens/auth/complete_profile_screen.dart';
@@ -221,12 +222,17 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12)),
               color: AppColors.primaryColor,
-              child: const Padding(
-                padding: EdgeInsets.all(4.0),
-                child: Icon(
-                  Icons.favorite_outline,
-                  color: Colors.white,
-                  size: 20,
+              child:  Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: GestureDetector(
+                  onTap: (){
+                    Get.find<AddToWishController>().addToWish(widget.productId);
+                  },
+                  child: const Icon(
+                    Icons.favorite_outline,
+                    color: Colors.white,
+                    size: 20,
+                  ),
                 ),
               ),
             ),

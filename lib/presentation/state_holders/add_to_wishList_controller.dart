@@ -19,6 +19,11 @@ class AddToWishController extends GetxController {
     await NetworkCaller().getRequest(Urls.createWishList(productID));
     if (response.isSuccess) {
       _isSuccess = true;
+     Get.showSnackbar(const GetSnackBar(
+       title: 'Successful',
+       message: 'Product added to wish List',
+       duration: Duration(seconds: 2),
+     ));
     } else {
       _errorMessage = response.errorMessage;
     }
