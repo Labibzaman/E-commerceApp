@@ -49,7 +49,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                 children: [
                   ListView.separated(
                     shrinkWrap: true,
-                    itemCount: reviewController.reviews.data?.length??0,
+                    itemCount: reviewController.reviews.data?.length??4,
                     itemBuilder: (BuildContext context, int index) {
                       return ReviewCard(reviewProfile: reviewController.reviews.data![index],
                           );

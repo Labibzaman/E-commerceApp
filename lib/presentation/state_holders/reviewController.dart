@@ -50,7 +50,7 @@ class ReviewController extends GetxController {
     _inProgress = false;
 
     if (response.isSuccess) {
-      _reviews = ReviewListModel.fromJson(response.responseData['data']);
+      _reviews = ReviewListModel.fromJson(response.responseData);
       update();
       return true;
     } else {
