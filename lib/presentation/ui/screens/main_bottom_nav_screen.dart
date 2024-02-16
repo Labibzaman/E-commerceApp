@@ -6,7 +6,7 @@ import 'package:crafty_bay/presentation/state_holders/special_product_controller
 import 'package:crafty_bay/presentation/ui/screens/Cart_list_screen.dart';
 import 'package:crafty_bay/presentation/ui/screens/HomeScreen.dart';
 import 'package:crafty_bay/presentation/ui/screens/category_screen.dart';
-import 'package:crafty_bay/presentation/ui/screens/wishList.dart';
+import 'package:crafty_bay/presentation/ui/screens/wish_List_screen.dart';
 import 'package:crafty_bay/presentation/ui/utility/appcolors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

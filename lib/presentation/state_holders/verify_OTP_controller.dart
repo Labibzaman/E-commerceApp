@@ -29,6 +29,7 @@ class Verify_OTP_controller extends GetxController {
     _inProgress = false;
     if (response.isSuccess) {
       _token = response.responseData['data'];
+
       await Future.delayed(const Duration(seconds: 3));
       final result =
       await Get.find<Read_Profile_controller>().readProfileData(token);
