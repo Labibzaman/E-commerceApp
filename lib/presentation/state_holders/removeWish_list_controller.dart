@@ -16,6 +16,7 @@ class RemoveWishListController extends GetxController {
   String get errorMessage => _errorMessage;
 
   WishListModel get wishListModel => _wishListModel;
+  bool isSuccess = false;
 
   Future<bool> removeWishList(int productID) async {
     bool isSuccess = false;
@@ -28,6 +29,8 @@ class RemoveWishListController extends GetxController {
       _wishListModel = WishListModel.fromJson(response.responseData);
 
       isSuccess = true;
+
+
     } else {
       _errorMessage = response.errorMessage;
     }

@@ -46,36 +46,40 @@ class _CartListScreenState extends State<CartListScreen> {
             style: TextStyle(fontSize: 18),
           ),
         ),
-        body: GetBuilder<CartListController>(
-          builder: (cartListController) {
-            if(cartListController.inProgress==true){
-              return const Center(child: CircularProgressIndicator());
-            }
-            return Column(
-              children: [
-                Expanded(
-                  child: ListView.separated(
-                    itemCount: cartListController.cartListModel.cartItemList?.length??0,
-                    itemBuilder: (BuildContext context, int index) {
-                      return  CartProductItem(cartItem: cartListController.cartListModel.cartItemList![index],);
-                    },
-                    separatorBuilder: (_, __) {
-                      return const SizedBox(
-                        height: 8,
-                      );
-                    },
-                  ),
-                ),
-                checkOutAndPrice(cartListController.totalPrice),
-              ],
-            );
+        body: GetBuilder<CartListController>(builder: (cartListController) {
+          if (cartListController.inProgress == true) {
+            return const Center(child: CircularProgressIndicator());
           }
-        ),
+          return Column(
+            children: [
+              Expanded(
+                child: ListView.separated(
+                  itemCount:
+                      cartListController.cartListModel.cartItemList?.length ??
+                          0,
+                  itemBuilder: (BuildContext context, int index) {
+                    return CartProductItem(
+                      cartItem:
+                          cartListController.cartListModel.cartItemList![index],
+
+                    );
+                  },
+                  separatorBuilder: (_, __) {
+                    return const SizedBox(
+                      height: 8,
+                    );
+                  },
+                ),
+              ),
+              checkOutAndPrice(cartListController.totalPrice),
+            ],
+          );
+        }),
       ),
     );
   }
 
-  Container  checkOutAndPrice(RxDouble totalPrice) {
+  Container checkOutAndPrice(RxDouble totalPrice) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -85,28 +89,28 @@ class _CartListScreenState extends State<CartListScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-           Column(
+          Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               const Text(
                 'Total Price',
                 style: TextStyle(fontSize: 14, color: Colors.black54),
               ),
-              Obx(() =>  Text(
-                '৳$totalPrice',
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.primaryColor,
-                ),
-              )),
+              Obx(() => Text(
+                    '৳$totalPrice',
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.primaryColor,
+                    ),
+                  )),
             ],
-           ),
+          ),
           SizedBox(
             width: 160,
             child: ElevatedButton(
               onPressed: () {
-                Get.to(()=>const CheckoutScreen());
+                Get.to(() => const CheckoutScreen());
               },
               child: const Text(
                 'Check Out',

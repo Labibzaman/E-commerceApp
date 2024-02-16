@@ -15,16 +15,13 @@ class WishList_screen extends StatefulWidget {
 }
 
 class _WishList_screenState extends State<WishList_screen> {
-
   @override
   void initState() {
     super.initState();
-WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-  Get.find<WishListController>().getWishList();
-});
-
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      Get.find<WishListController>().getWishList();
+    });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -51,13 +48,16 @@ WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
             style: TextStyle(fontSize: 18, color: Colors.black54),
           ),
         ),
-        body: GetBuilder<WishListController>(
-          builder: (wishListcontroller) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Visibility(
-                visible: wishListcontroller.inProgress==false,
-                replacement: const Center(child: CircularProgressIndicator()),
+        body: GetBuilder<WishListController>(builder: (wishListcontroller) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Visibility(
+              visible: wishListcontroller.inProgress == false,
+              replacement: const Center(child: CircularProgressIndicator()),
+              child: RefreshIndicator(
+                onRefresh: () {
+                  return Get.find<WishListController>().getWishList();
+                },
                 child: GridView.builder(
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3,
@@ -65,18 +65,22 @@ WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
                     mainAxisSpacing: 4,
                     childAspectRatio: 0.70,
                   ),
-                  itemCount: wishListcontroller.wishListModel.data?.length??0,
+                  itemCount: wishListcontroller.wishListModel.data?.length ?? 0,
                   itemBuilder: (BuildContext context, int index) {
-                    return  FittedBox(
+                    return FittedBox(
                         child: WishListProductCard_item(
-                      product: wishListcontroller.wishListModel.data![index].product!,
+                      product: wishListcontroller
+                          .wishListModel.data![index].product!,
+                      onTap: () {
+                        Get.find<WishListController>().getWishList();
+                      },
                     ));
                   },
                 ),
               ),
-            );
-          }
-        ),
+            ),
+          );
+        }),
       ),
     );
   }

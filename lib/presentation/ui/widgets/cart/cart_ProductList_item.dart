@@ -1,4 +1,5 @@
 
+import 'package:crafty_bay/data/models/productItem_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:item_count_number_button/item_count_number_button.dart';
@@ -8,9 +9,10 @@ import '../../../state_holders/cart_list_controller.dart';
 import '../../utility/appcolors.dart';
 
 class CartProductItem extends StatefulWidget {
-  const CartProductItem({super.key, required this.cartItem});
+  const CartProductItem({super.key, required this.cartItem,});
 
   final CartItem cartItem;
+
 
   @override
   State<CartProductItem> createState() => _CartProductItemState();
@@ -70,7 +72,15 @@ class _CartProductItemState extends State<CartProductItem> {
                       ),
                     ),
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return removeAlertDialog;
+                            });
+                        Get.find<CartListController>().removeCartList(
+                            widget.cartItem.productId!);
+                      },
                       icon: const Icon(
                         Icons.delete_forever_outlined,
                         color: Colors.grey,
@@ -113,6 +123,33 @@ class _CartProductItemState extends State<CartProductItem> {
           )
         ],
       ),
+    );
+  }
+
+  AlertDialog get removeAlertDialog {
+    return AlertDialog(
+      title: const Text('Remove from Wish List'),
+      content: const Text('Do you want to remove this item?'),
+      actions: [
+        TextButton(
+            onPressed: () {
+              Get.back();
+            },
+            child: const Text('No')),
+        TextButton(
+            onPressed: () async {
+              Get.find<CartListController>().removeCartList(
+                  widget.cartItem.productId!);
+              Get
+                  .find<CartListController>()
+                  .cartListModel
+                  .cartItemList
+                  ?.clear();
+              Get.find<CartListController>().getCartList();
+              Get.back();
+            },
+            child: const Text('Yes')),
+      ],
     );
   }
 }

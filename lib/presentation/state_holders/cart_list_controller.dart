@@ -1,10 +1,10 @@
 
-import 'package:crafty_bay/data/utility/urls.dart';
 import 'package:get/get.dart';
 
 import '../../data/models/cart_item_model.dart';
 import '../../data/models/cart_listModel.dart';
 import '../../data/service/Network_Caller.dart';
+import '../../data/utility/URls.dart';
 
 class CartListController extends GetxController {
   bool _inProgress = false;
@@ -33,6 +33,24 @@ class CartListController extends GetxController {
     if (response.isSuccess) {
       _cartListModel = CartListModel.fromJson(response.responseData);
       _totalPrice.value = _calculateTotalPrice;
+      isSuccess = true;
+    } else {
+      _errorMessage = response.errorMessage;
+    }
+    _inProgress = false;
+    update();
+    return isSuccess;
+  }
+
+  Future<bool> removeCartList(int productID) async {
+    bool isSuccess = false;
+    _inProgress = true;
+    update();
+    final response = await NetworkCaller().getRequest(
+     Urls.removeCartList(productID),
+    );
+    if (response.isSuccess) {
+
       isSuccess = true;
     } else {
       _errorMessage = response.errorMessage;
