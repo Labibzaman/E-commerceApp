@@ -28,10 +28,10 @@ class ControlBinder extends Bindings {
   void dependencies() {
     Get.put(Main_bottom_controller());
     Get.put(SendOTPEmail_Controller());
-    Get.put(Verify_OTP_controller());
+    Get.put(Verify_otp_controller());
     Get.put(Read_Profile_controller());
     Get.put(Auth_Controller());
-    Get.put(Complete_profile_controller());
+    Get.put(Complete_Profile_Controller());
     Get.put(Product_list_Slider());
     Get.put(CategoryList_controller());
     Get.put(PopularProduct_controller());

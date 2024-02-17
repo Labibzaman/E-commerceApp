@@ -160,7 +160,7 @@ class _Complete_profileScreenState extends State<Complete_profileScreen> {
                 const SizedBox(height: 10),
                 SizedBox(
                   width: double.infinity,
-                  child: GetBuilder<Complete_profile_controller>(
+                  child: GetBuilder<Complete_Profile_Controller>(
                       builder: (controller) {
                     return Visibility(
                       replacement: const Center(
@@ -171,19 +171,26 @@ class _Complete_profileScreenState extends State<Complete_profileScreen> {
                         onPressed: () async {
                           if (_formkey.currentState!.validate()) {
                             final createdParams = CreateProfile_params(
-                              firstName: firsNAmeController.text.trim(),
-                              CustomerAddress:
-                                  CustomerAddController.text.trim(),
-                              mobile: mobileNAmeController.text.trim(),
-                              city: cityController.text.trim(),
-                              Shipping: shippingController.text.trim(),
-                              state: stateController.text.trim(),
-                              postal: postalCodeController.text.trim(),
-                              country: Countrycodecontroller.text.trim(),
+                              cusName:firsNAmeController.text.trim(),
+                              cusAdd: CustomerAddController.text.trim(),
+                              cusCity: cityController.text.trim(),
+                              cusState: stateController.text.trim(),
+                              cusPostcode: postalCodeController.text.trim(),
+                              cusCountry: Countrycodecontroller.text.trim(),
+                              cusPhone: mobileNAmeController.text.trim(),
+                              cusFax: mobileNAmeController.text.trim(),
+                              shipName: firsNAmeController.text.trim(),
+                              shipAdd: CustomerAddController.text.trim(),
+                              shipCity: cityController.text.trim(),
+                              shipState: stateController.text.trim(),
+                              shipPostcode:
+                              postalCodeController.text.trim(),
+                              shipCountry: Countrycodecontroller.text.trim(),
+                              shipPhone: mobileNAmeController.text.trim(),
                             );
                             final bool result =
-                                await controller.CreateProfileDATA(
-                                    Get.find<Verify_OTP_controller>().token,
+                                await controller.createProfileData(
+                                    Get.find<Verify_otp_controller>().token,
                                     createdParams);
                             if (result) {
                               Get.offAll(() => const MainBottoma_navScreen());

@@ -142,7 +142,7 @@ class _verifyOTPscreenState extends State<verifyOTPscreen> {
                 SizedBox(
                   width: double.infinity,
                   child:
-                      GetBuilder<Verify_OTP_controller>(builder: (controller) {
+                      GetBuilder<Verify_otp_controller>(builder: (controller) {
                     return Visibility(
                       replacement: const Center(
                         child: CircularProgressIndicator(),
@@ -151,19 +151,19 @@ class _verifyOTPscreenState extends State<verifyOTPscreen> {
                       child: ElevatedButton(
                         onPressed: () async {
                           if (_formkey.currentState!.validate()) {
-                            final bool response = await controller.verifyOTP(
+                            final bool response = await controller.verifyOtp(
                                 widget.email, _Verifyotpcontroller.text);
                             if (response) {
-                              if (controller.shouldNavigateToCompleteProfile) {
+                              if (controller.shouldNavigateCompleteProfile) {
                                 Get.to(() => const Complete_profileScreen());
                               } else {
                                 Get.offAll(() => const MainBottoma_navScreen());
                               }
                             } else {
-                              Get.showSnackbar(GetSnackBar(
+                              Get.showSnackbar(const GetSnackBar(
                                 title: 'OTP verification failed',
-                                message: controller.errorMessage,
-                                duration: const Duration(seconds: 2),
+                                message: 'Failed',
+                                duration: Duration(seconds: 2),
                                 isDismissible: true,
                               ));
                             }

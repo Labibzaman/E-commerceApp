@@ -1,42 +1,45 @@
-import 'package:crafty_bay/data/service/Network_Caller.dart';
-import 'package:crafty_bay/data/utility/URls.dart';
+
 import 'package:crafty_bay/presentation/state_holders/auth_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/read_profile_controller.dart';
 import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
-class Verify_OTP_controller extends GetxController {
+import '../../data/service/Network_Caller.dart';
+import '../../data/utility/URls.dart';
+
+class Verify_otp_controller extends GetxController {
   bool _inProgress = false;
-  String _errorMessage = '';
-
-  bool _goTOCompleteProfile = true;
-
-  bool get shouldNavigateToCompleteProfile => _goTOCompleteProfile;
-
-  String? get errorMessage => _errorMessage;
 
   bool get inProgress => _inProgress;
 
+  String _errorMessage = '';
+
+  String get errorMessage => _errorMessage;
+
+  bool _shouldNavigateCompleteProfile = true;
+
+  bool get shouldNavigateCompleteProfile => _shouldNavigateCompleteProfile;
   String _token = '';
 
   String get token => _token;
 
-
-
-  Future<bool> verifyOTP(String email, String otp) async {
+  Future<bool> verifyOtp(String email, String otp) async {
     _inProgress = true;
     update();
-    final response = await NetworkCaller().getRequest(Urls.VerifyOTPemail(email, otp));
+    final response =
+    await NetworkCaller().getRequest(Urls.VerifyOTPemail(email, otp));
     _inProgress = false;
     if (response.isSuccess) {
       _token = response.responseData['data'];
-
-      await Future.delayed(const Duration(seconds: 3));
       final result =
-      await Get.find<Read_Profile_controller>().readProfileData(token);
+      await Get.find<Read_Profile_controller>().readProfileData(_token);
       if (result) {
-        _goTOCompleteProfile = Get.find<Read_Profile_controller>().isProfileCompleted == false;
-        if (_goTOCompleteProfile == false) {
-          await Get.find<Auth_Controller>().saveUserInformation(token, Get.find<Read_Profile_controller>().profile);
+        _shouldNavigateCompleteProfile =
+            Get.find<Read_Profile_controller>().isProfileCompleted == false;
+        if (_shouldNavigateCompleteProfile == false) {
+          Get.find<Auth_Controller>().saveUserInformation(
+              _token, Get.find<Read_Profile_controller>().readProfile,null);
         }
       } else {
         _errorMessage = Get.find<Read_Profile_controller>().errorMessage!;
