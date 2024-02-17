@@ -1,156 +1,115 @@
+import 'package:crafty_bay/presentation/state_holders/reviewController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../data/service/Network_Caller.dart';
-import '../../../data/utility/URls.dart';
+import '../../../data/models/CreateReview_controller.dart';
 
-class AddNewReviewscreen extends StatefulWidget {
-  AddNewReviewscreen({
-    super.key,
-  });
+class AddNewReviewScreen extends StatefulWidget {
+  const AddNewReviewScreen({super.key, required this.productId});
+
+  final int productId;
 
   @override
-  State<AddNewReviewscreen> createState() => _AddNewReviewscreenState();
+  State<AddNewReviewScreen> createState() => _AddNewReviewScreenState();
 }
 
-class _AddNewReviewscreenState extends State<AddNewReviewscreen> {
-  final TextEditingController _titleTeController = TextEditingController();
-  final TextEditingController _descripTeController = TextEditingController();
-  final GlobalKey<FormState> _formkey = GlobalKey();
-
-  bool isAdded = false;
+class _AddNewReviewScreenState extends State<AddNewReviewScreen> {
+  final TextEditingController _ratingController = TextEditingController();
+  final TextEditingController _descriptionController =
+      TextEditingController();
+  final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add New Review'),
+        title: const Text('Create Review'),
       ),
-      body: SafeArea(
-        child: Form(
-          key: _formkey,
-          child: Column(
-            children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(
-                          height: 28,
-                        ),
-                        const SizedBox(
-                          height: 28,
-                        ),
-                        TextFormField(
-                          controller: _titleTeController,
-                          decoration:
-                              const InputDecoration(hintText: 'First Name'),
-                          validator: (String? value) {
-                            if (value!.trim().isEmpty) {
-                              return 'Enter First Name';
-                            }
-                            return null;
-                          },
-                        ),
-                        SizedBox(height: 10),
-                        TextFormField(
-                          controller: _titleTeController,
-                          decoration:
-                              const InputDecoration(hintText: 'Last Name'),
-                          validator: (String? value) {
-                            if (value!.trim().isEmpty) {
-                              return 'Enter Last Name';
-                            }
-                            return null;
-                          },
-                        ),
-                        const SizedBox(
-                          height: 28,
-                        ),
-                        TextFormField(
-                          controller: _descripTeController,
-                          maxLines: 8,
-                          decoration:
-                              const InputDecoration(hintText: 'Write Review'),
-                          validator: (String? value) {
-                            if (value!.trim().isEmpty) {
-                              return 'Wirte your Review';
-                            }
-                            return null;
-                          },
-                        ),
-                        const SizedBox(
-                          height: 16,
-                        ),
-                        SizedBox(
-                          width: double.infinity,
-                          child: Visibility(
-                            visible: isAdded == false,
-                            replacement:
-                                const Center(child: CircularProgressIndicator()),
-                            child: ElevatedButton(
-                              onPressed: addnewTask,
-                              child: const Text(
-                                'Submit',
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(45),
+          child: Form(
+            key: _formkey,
+            child: Column(
+              children: [
+                const SizedBox(height: 16),
+                TextFormField(
+                  controller: _ratingController,
+                  keyboardType: TextInputType.number,
+                  textInputAction: TextInputAction.next,
+                  decoration: const InputDecoration(
+                      hintText: ' 80/100'),
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return 'Enter  rating';
+                    }
+                    return null;
+                  },
                 ),
-              ),
-            ],
+                const SizedBox(height: 16),
+                TextFormField(
+                  controller: _descriptionController,
+                  textInputAction: TextInputAction.done,
+                  maxLines: 5,
+                  decoration: const InputDecoration(
+                    hintText: 'Write your Review',
+                  ),
+                  validator: (value) {
+                    if (value!.trim().isEmpty) {
+                      return 'Enter Review description';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16),
+                SizedBox(
+                  width: double.infinity,
+                  child:
+                      GetBuilder<CreateReviewController>(builder: (controller) {
+                    return Visibility(
+                      visible: controller.inProgress == false,
+                      replacement:
+                          const Center(child: CircularProgressIndicator()),
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          if (_formkey.currentState!.validate()) {
+                            final response = await controller.CreateReview(
+                              widget.productId,
+                              int.parse(_ratingController.text.trim()),
+                              _descriptionController.text.trim(),
+                            );
+                            if (response) {
+                              Get.back();
+                              Get.find<ReviewController>()
+                                  .getReview(widget.productId);
+                            } else {
+                              Get.showSnackbar(const GetSnackBar(
+                                title: 'failed',
+                                message: 'try again ',
+                                duration: Duration(seconds: 2),
+                                isDismissible: true,
+                                backgroundColor: Colors.red,
+                              ));
+                            }
+                          }
+                        },
+                        child: const Text('Submit',style: TextStyle(color: Colors.white),),
+                      ),
+                    );
+                  }),
+                )
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  Future<void> addnewTask() async {
-    if (_formkey.currentState!.validate()) {
-      isAdded = true;
-      if (mounted) {
-        setState(() {});
-      }
-      final response =
-          await NetworkCaller().postRequest(Urls.createReview, body: {
-        "description":
-            "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-        "product_id": 2,
-        "rating": 5
-      });
-      isAdded = false;
-      if (mounted) {
-        setState(() {});
-      }
-      if (response.isSuccess) {
-        clearTextfiled();
-
-        if (mounted) {}
-      } else {
-        if (mounted) {
-          // ShowSnackMessage(context, 'Something went wrong',true);
-        }
-      }
-    }
-  }
-
-  void clearTextfiled() {
-    _descripTeController.clear();
-    _titleTeController.clear();
-  }
-
   @override
   void dispose() {
-    _titleTeController.dispose();
-    _descripTeController.clear();
+    _ratingController.clear();
+    _descriptionController.clear();
     super.dispose();
   }
 }

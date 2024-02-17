@@ -20,6 +20,8 @@ import 'package:crafty_bay/presentation/state_holders/special_product_controller
 import 'package:crafty_bay/presentation/state_holders/verify_OTP_controller.dart';
 import 'package:get/get.dart';
 
+import 'data/models/CreateReview_controller.dart';
+
 
 class ControlBinder extends Bindings {
   @override
@@ -44,5 +46,6 @@ class ControlBinder extends Bindings {
     Get.put(WishListController());
     Get.put(AddToWishController());
     Get.put(RemoveWishListController());
+    Get.put(CreateReviewController());
   }
 }

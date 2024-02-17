@@ -204,8 +204,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             GestureDetector(
               onTap: () {
                 if (Auth_Controller().isTokenNotNull) {
-                  Get.to(() => ReviewScreen(
-                        productID: widget.productId,
+                  Get.to(() => ReviewsScreen(
+                        productId: widget.productId,
                       ));
                 } else {
                   Get.to(() => const VerifyEmailScreen());

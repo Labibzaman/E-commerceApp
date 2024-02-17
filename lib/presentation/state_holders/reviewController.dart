@@ -20,17 +20,17 @@ class ReviewController extends GetxController {
 
   ReviewListModel get reviews => _reviews;
 
-  Future<bool> CreateReview(token,CreateProfile_params params) async {
+  Future<bool> CreateReview(dynamic params) async {
     _inProgress = true;
     update();
 
     final response =
-    await NetworkCaller().postRequest(Urls.createReview, token: token,body: params.toJson());
+    await NetworkCaller().postRequest(Urls.createReview,body: params);
 
     _inProgress = false;
 
     if (response.isSuccess) {
-      _reviews = ReviewListModel.fromJson(response.responseData['data']);
+      _reviews = ReviewListModel.fromJson(response.responseData);
       update();
       return true;
     } else {
