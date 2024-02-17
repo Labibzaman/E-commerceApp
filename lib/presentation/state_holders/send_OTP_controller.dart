@@ -7,7 +7,7 @@ class SendOTPEmail_Controller extends GetxController {
   bool _inProgress = false;
   String? _errorMessage;
 
-  String ? get errorMessage => _errorMessage;
+  String? get errorMessage => _errorMessage;
 
   bool get inProgress => _inProgress;
 
@@ -20,7 +20,7 @@ class SendOTPEmail_Controller extends GetxController {
     _inProgress = false;
     update();
     if (response.isSuccess) {
-
+      update();
       return true;
     } else {
       _errorMessage = response.errorMessage;
