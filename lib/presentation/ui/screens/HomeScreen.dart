@@ -6,6 +6,7 @@ import 'package:crafty_bay/presentation/state_holders/brandList_controller.dart'
 import 'package:crafty_bay/presentation/state_holders/main_nav_bottom_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/product_list_slider_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/special_product_controller.dart';
+import 'package:crafty_bay/presentation/ui/screens/Brand_Screen.dart';
 import 'package:crafty_bay/presentation/ui/screens/auth/verify_email_screen.dart';
 import 'package:crafty_bay/presentation/ui/screens/category_screen.dart';
 import 'package:crafty_bay/presentation/ui/screens/productList_screen.dart';
@@ -70,7 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 homeCategoryandSeeText(
                   title: 'Brands',
                   onTapSeeAll: () {
-                    Get.find<Main_bottom_controller>().changeIndex(1);
+                    Get.to(()=>const BrandScreen());
                   },
                 ),
                 BrandList_View,
@@ -235,16 +236,8 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: Colors.white,
       elevation: 0,
       actions: [
-        CircleIconButton(
-          onTap: () async {
-            await Auth_Controller.clearDATA();
-            Get.offAll(() => const VerifyEmailScreen());
-          },
-          iconData: Icons.person,
-        ),
-        const SizedBox(
-          width: 8,
-        ),
+
+
         CircleIconButton(
           onTap: () {},
           iconData: Icons.call,
@@ -255,6 +248,16 @@ class _HomeScreenState extends State<HomeScreen> {
         CircleIconButton(
           onTap: () {},
           iconData: Icons.notifications_active,
+        ),
+        const SizedBox(
+          width: 8,
+        ),
+        CircleIconButton(
+          onTap: () async {
+            await Auth_Controller.clearDATA();
+            Get.offAll(() => const VerifyEmailScreen());
+          },
+          iconData: Icons.login,
         ),
       ],
       title: Hero(
