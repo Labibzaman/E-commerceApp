@@ -43,9 +43,16 @@ class _Home_imageCarouselState extends State<Home_imageCarousel> {
                       width: MediaQuery.of(context).size.width,
                       margin: const EdgeInsets.symmetric(horizontal: 3.0),
                       decoration: BoxDecoration(
-                        color: AppColors.primaryColor,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
+                          color: AppColors.primaryColor,
+                          borderRadius: BorderRadius.circular(10),
+                          image: DecorationImage(
+
+                            image: NetworkImage(
+                              Banner.image ?? '',
+
+
+                            ),fit: BoxFit.fill,
+                          )),
                       alignment: Alignment.center,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -56,39 +63,33 @@ class _Home_imageCarouselState extends State<Home_imageCarousel> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                SizedBox(
-                                  width: 112,
-                                  child: Text(
-                                    Banner.title ?? '',
-                                    style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w600),
-                                  ),
+                                Row(
+                                  children: [
+                                    SizedBox(
+                                      width: 112,
+                                      child: Text(
+                                        Banner.title ?? '',
+                                        style: const TextStyle(
+                                            color: Colors.white,
+                                            backgroundColor: AppColors.primaryColor,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                    ),
+                                    // SizedBox(
+                                    //   height: 145,
+                                    //   width: 188,
+                                    //   child: Image.network(
+                                    //     Banner.image ?? '',
+                                    //     fit: BoxFit.fill,
+                                    //   ),
+                                    // ),
+                                  ],
                                 ),
                                 const SizedBox(
                                   height: 10,
                                 ),
-                                SizedBox(
-                                  width: 100,
-                                  child: Text(
-                                    Banner.shortDes ?? '',
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 12,
-                                    ),
-                                  ),
-                                ),
                               ],
-                            ),
-                          ),
-                          SizedBox(
-                            height: 145,
-                            width: 188,
-                            child: Image.network(
-                              Banner.image ?? '',
-                              fit: BoxFit.fill,
                             ),
                           ),
                         ],
