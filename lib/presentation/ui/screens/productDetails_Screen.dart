@@ -261,7 +261,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 style: TextStyle(fontSize: 14, color: Colors.black54),
               ),
               Text(
-                '\$12563755',
+                '\$94000',
                 style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
