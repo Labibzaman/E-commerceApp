@@ -64,6 +64,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                 ),
                 CategoryList_View,
+                const SizedBox(height: 8),
+                homeCategoryandSeeText(
+                  title: 'Brands',
+                  onTapSeeAll: () {
+                    Get.find<Main_bottom_controller>().changeIndex(1);
+                  },
+                ),
+                BrandList_View,
                 homeCategoryandSeeText(
                   title: 'Popular',
                   onTapSeeAll: () {
@@ -135,6 +143,34 @@ class _HomeScreenState extends State<HomeScreen> {
               return CategoryItemList(
                 category:
                     categoryController.CategoryListModel.CategoryList![index],
+              );
+            },
+            separatorBuilder: (BuildContext context, int index) {
+              return const Divider(height: 8);
+            },
+          ),
+        );
+      }),
+    );
+  }
+
+  SizedBox get BrandList_View {
+    return SizedBox(
+      height: 120,
+      child: GetBuilder<CategoryList_controller>(builder: (categoryController) {
+        return Visibility(
+          visible: categoryController.inProgress == false,
+          replacement: const Center(child: CircularProgressIndicator()),
+          child: ListView.separated(
+            scrollDirection: Axis.horizontal,
+            shrinkWrap: true,
+            primary: false,
+            itemCount:
+            categoryController.CategoryListModel.CategoryList?.length ?? 0,
+            itemBuilder: (BuildContext context, int index) {
+              return CategoryItemList(
+                category:
+                categoryController.CategoryListModel.CategoryList![index],
               );
             },
             separatorBuilder: (BuildContext context, int index) {
