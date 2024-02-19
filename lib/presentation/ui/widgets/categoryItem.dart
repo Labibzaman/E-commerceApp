@@ -35,6 +35,7 @@ class CategoryItemList extends StatelessWidget {
                   category.categoryImg ?? '',
                   width: 40,
                   height: 40,
+                  fit: BoxFit.cover,
                 )),
           ),
           Text(

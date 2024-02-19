@@ -34,8 +34,9 @@ class BrandItemList extends StatelessWidget {
                 padding: const EdgeInsets.all(20.0),
                 child: Image.network(
                   BrandData.brandImg ?? '',
-                  width: 40,
+                  width: 60,
                   height: 40,
+                  fit: BoxFit.cover,
                 )),
           ),
           Text(
