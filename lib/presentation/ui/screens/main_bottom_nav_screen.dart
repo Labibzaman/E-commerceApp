@@ -1,6 +1,7 @@
 import 'package:crafty_bay/presentation/state_holders/Category_list_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/New_Product_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/Popular_product_controller.dart';
+import 'package:crafty_bay/presentation/state_holders/brandList_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/main_nav_bottom_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/special_product_controller.dart';
 import 'package:crafty_bay/presentation/ui/screens/Cart_list_screen.dart';
@@ -34,6 +35,7 @@ class _MainBottoma_navScreenState extends State<MainBottoma_navScreen> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
     Get.find<Product_list_Slider>().getSliderlist();
     Get.find<CategoryList_controller>().getCategoryList();
+    Get.find<BrandList_controller>().getCategoryList();
     Get.find<PopularProduct_controller>().getPopularList();
     Get.find<SpecialProduct_controller>().getSpecialList();
     Get.find<NewProduct_controller>().getNewList();

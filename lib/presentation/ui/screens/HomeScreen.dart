@@ -2,6 +2,7 @@ import 'package:crafty_bay/presentation/state_holders/Category_list_controller.d
 import 'package:crafty_bay/presentation/state_holders/New_Product_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/Popular_product_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/auth_controller.dart';
+import 'package:crafty_bay/presentation/state_holders/brandList_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/main_nav_bottom_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/product_list_slider_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/special_product_controller.dart';
@@ -10,6 +11,7 @@ import 'package:crafty_bay/presentation/ui/screens/category_screen.dart';
 import 'package:crafty_bay/presentation/ui/screens/productList_screen.dart';
 import 'package:crafty_bay/presentation/ui/utility/appcolors.dart';
 import 'package:crafty_bay/presentation/ui/utility/assets_path.dart';
+import 'package:crafty_bay/presentation/ui/widgets/brandItem.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -157,7 +159,7 @@ class _HomeScreenState extends State<HomeScreen> {
   SizedBox get BrandList_View {
     return SizedBox(
       height: 120,
-      child: GetBuilder<CategoryList_controller>(builder: (categoryController) {
+      child: GetBuilder<BrandList_controller>(builder: (categoryController) {
         return Visibility(
           visible: categoryController.inProgress == false,
           replacement: const Center(child: CircularProgressIndicator()),
@@ -166,11 +168,11 @@ class _HomeScreenState extends State<HomeScreen> {
             shrinkWrap: true,
             primary: false,
             itemCount:
-            categoryController.CategoryListModel.CategoryList?.length ?? 0,
+                categoryController.brandListModel.BrandListData?.length ?? 0,
             itemBuilder: (BuildContext context, int index) {
-              return CategoryItemList(
-                category:
-                categoryController.CategoryListModel.CategoryList![index],
+              return BrandItemList(
+                BrandData:
+                    categoryController.brandListModel.BrandListData![index],
               );
             },
             separatorBuilder: (BuildContext context, int index) {
