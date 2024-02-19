@@ -26,4 +26,3 @@ class Brand {
     return data;
   }
 }
-
